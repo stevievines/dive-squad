@@ -1,0 +1,23 @@
+<div class="container">
+  <div class="row">
+    <%= form_tag login_path do %>
+      <div class="form-group">
+        <div class="field">
+          <%= label_tag :email %>
+          <%= email_field_tag :email, nil, { autofocus: true, class: 'form-control' } %>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="field">
+          <%= label_tag :password %>
+          <%= password_field_tag :password, nil, { autocomplete: 'off', class: 'form-control' } %>
+        </div>
+      </div>
+
+      <div class="actions">
+        <%= submit_tag 'Login', class: 'btn btn-primary' %>
+      </div>
+    <% end %>
+  </div>
+</div>

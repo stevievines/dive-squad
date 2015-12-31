@@ -1,0 +1,8 @@
+<h1>Diver: <%= @diver.name %></h1>
+
+Coaches:
+<ul>
+  <% @diver.coaches.each do |coach| %>
+    <li><%= link_to(coach.name, coach_path(coach)) %></li>
+  <% end %>
+</ul>

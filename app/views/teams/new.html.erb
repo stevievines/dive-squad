@@ -1,0 +1,16 @@
+<div class="container">
+  <div class="row">
+    <%= form_for @team do |f| %>
+      <div class="form-group">
+        <div class="field">
+          <%= f.label :name %><br />
+          <%= f.text_field :name, { autofocus: true, class: 'form-control' } %>
+        </div>
+      </div>
+
+      <div class="actions">
+        <%= f.submit "Add Team", class: 'btn btn-primary' %>
+      </div>
+    <% end %>
+  </div>
+</div>
