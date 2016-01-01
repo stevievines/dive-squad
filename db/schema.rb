@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151231030130) do
+ActiveRecord::Schema.define(version: 20151231145713) do
 
   create_table "coaches", force: :cascade do |t|
     t.string   "name",            null: false
@@ -40,6 +40,32 @@ ActiveRecord::Schema.define(version: 20151231030130) do
   end
 
   add_index "divers", ["team_id"], name: "index_divers_on_team_id"
+
+  create_table "dives", force: :cascade do |t|
+    t.string   "number",      null: false
+    t.integer  "height",      null: false
+    t.string   "description"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  create_table "list_dives", force: :cascade do |t|
+    t.integer "list_id", null: false
+    t.integer "dive_id", null: false
+  end
+
+  add_index "list_dives", ["dive_id"], name: "index_list_dives_on_dive_id"
+  add_index "list_dives", ["list_id"], name: "index_list_dives_on_list_id"
+
+  create_table "lists", force: :cascade do |t|
+    t.integer  "diver_id",    null: false
+    t.string   "name",        null: false
+    t.string   "description"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "lists", ["diver_id"], name: "index_lists_on_diver_id"
 
   create_table "teams", force: :cascade do |t|
     t.string "name", null: false

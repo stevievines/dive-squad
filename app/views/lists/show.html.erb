@@ -1,0 +1,10 @@
+<h1><%= "#{@list.name} (#{@list.dives.count} dives)" %></h1>
+
+Dives:
+<ul>
+  <% @list.dives.each do |dive| %>
+    <li><%= "#{dive.number} #{dive.height}M -- #{dive.description}" %></li>
+  <% end %>
+</ul>
+
+<%= link_to('Add a Dive', new_diver_list_list_dive_path(list_id: @list.id)) %>

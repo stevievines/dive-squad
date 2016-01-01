@@ -6,3 +6,12 @@ Coaches:
     <li><%= link_to(coach.name, coach_path(coach)) %></li>
   <% end %>
 </ul>
+
+Lists:
+<ul>
+  <% @diver.lists.each do |list| %>
+    <li><%= link_to(list.name, diver_list_path(@diver, list)) %></li>
+  <% end %>
+</ul>
+
+<%= link_to('Add a List', new_diver_list_path(@diver)) %>

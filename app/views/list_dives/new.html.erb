@@ -1,0 +1,16 @@
+<div class="container">
+  <div class="row">
+    <%= form_for :list_dive, url: diver_list_list_dives_path do |f| %>
+      <div class="form-group">
+        <div class="field">
+          <%= f.label :dive_id %><br />
+          <%= f.select :dive_id, options_from_collection_for_select(@dives, :id, :display_description), { class: 'form-control' } %>
+        </div>
+      </div>
+
+      <div class="actions">
+        <%= f.submit "Add Dive", class: 'btn btn-primary' %>
+      </div>
+    <% end %>
+  </div>
+</div>

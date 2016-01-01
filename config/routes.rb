@@ -9,5 +9,9 @@ Rails.application.routes.draw do
   get '/signup' => 'coaches#new'
   resources :coaches, only: [:create, :show]
   resources :teams, only: [:new, :create, :show, :index]
-  resources :divers, only: [:new, :create, :show]
+  resources :divers, only: [:new, :create, :show] do
+    resources :lists, only: [:new, :create, :show] do
+      resources :list_dives, only: [:new, :create]
+    end
+  end
 end
