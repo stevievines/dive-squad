@@ -1,0 +1,12 @@
+<%= form_for @team, remote: true do |f| %>
+  <div class="form-group">
+    <div class="field">
+      <%= f.label :name %><br />
+      <%= f.text_field :name, { autofocus: true, class: 'form-control' } %>
+    </div>
+  </div>
+
+  <div class="actions">
+    <%= f.submit "Save", class: 'btn btn-primary' %>
+  </div>
+<% end %>

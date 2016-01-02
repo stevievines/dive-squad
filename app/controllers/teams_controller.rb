@@ -1,9 +1,6 @@
 class TeamsController < ApplicationController
   before_filter :authorize
-
-  def index
-    @teams = @current_coach.teams
-  end
+  before_filter :all_teams, only: [:index, :create]
 
   def new
     @team = Team.new
@@ -14,11 +11,7 @@ class TeamsController < ApplicationController
   end
 
   def create
-    if @team = @current_coach.teams.create(team_params)
-      redirect_to team_path(@team)
-    else
-      redirect_to new_team_path
-    end
+    @team = @current_coach.teams.create(team_params)
   end
 
   private

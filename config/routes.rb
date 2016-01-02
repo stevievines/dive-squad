@@ -1,12 +1,13 @@
 Rails.application.routes.draw do
 
-  root to: 'teams#index'
+  root to: 'dashboards#show'
 
   get '/login' => 'sessions#new'
   post '/login' => 'sessions#create'
   delete '/logout' => 'sessions#destroy'
 
   get '/signup' => 'coaches#new'
+  resource :dashboard, only: :show
   resources :coaches, only: [:create, :show]
   resources :teams, only: [:new, :create, :show, :index]
   resources :divers, only: [:new, :create, :show] do

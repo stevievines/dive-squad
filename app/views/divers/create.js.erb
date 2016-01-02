@@ -1,0 +1,6 @@
+$('#divers-count').html("<%= @divers.count %>");
+$('#divers').html("<%= escape_javascript(render @divers) %>");
+// this is necessary because the diver counts will change
+$('#teams').html("<%= escape_javascript(render @teams) %>");
+$('#diver-form').slideUp(350);
+$('#add-diver-button').show();

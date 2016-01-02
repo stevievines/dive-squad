@@ -7,8 +7,18 @@ class ApplicationController < ActionController::Base
     @current_coach ||= Coach.find(session[:coach_id]) if session[:coach_id]
   end
 
+  private
+
   def authorize
     redirect_to login_path unless current_coach
+  end
+
+  def all_teams
+    @teams = @current_coach.teams
+  end
+
+  def all_divers
+    @divers = @current_coach.divers
   end
 
 end

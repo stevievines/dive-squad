@@ -1,6 +1,30 @@
 // "bootstrap-sprockets" must be imported before "bootstrap" and "bootstrap/variables"
 @import "bootstrap-sprockets";
 @import "bootstrap";
-@import "startbootstrap-sb-admin-2/dist/css/sb-admin-2";
 @import "font-awesome-sprockets";
 @import "font-awesome";
+
+/*TODO: move to dashboard css or something*/
+//colors
+$color_fern_approx: #5cb85c;
+$white: #fff;
+$color_goblin_approx: #3d8b3d;
+
+.panel-green {
+  border-color: $color_fern_approx;
+  .panel-heading {
+    border-color: $color_fern_approx;
+    color: $white;
+    background-color: $color_fern_approx;
+  }
+  a {
+    color: $color_fern_approx;
+    &:hover {
+      color: $color_goblin_approx;
+    }
+  }
+}
+
+.huge {
+  font-size: 40px;
+}

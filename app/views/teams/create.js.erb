@@ -1,0 +1,4 @@
+$('#teams-count').html("<%= @teams.count %>");
+$('#teams').html("<%= escape_javascript(render @teams) %>");
+$('#team-form').slideUp(350);
+$('#add-team-button').show();

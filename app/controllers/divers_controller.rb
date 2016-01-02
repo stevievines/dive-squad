@@ -1,5 +1,6 @@
 class DiversController < ApplicationController
   before_action :authorize
+  before_action :all_teams, :all_divers, only: [:create]
 
   def new
     @diver = Diver.new
@@ -7,11 +8,7 @@ class DiversController < ApplicationController
   end
 
   def create
-    if @diver = Diver.create(diver_params)
-      redirect_to diver_path(@diver)
-    else
-      redirect_to new_diver_path
-    end
+    @diver = Diver.create(diver_params)
   end
 
   def show
