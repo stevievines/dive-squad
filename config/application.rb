@@ -8,6 +8,8 @@ Bundler.require(*Rails.groups)
 
 module DiveSquad
   class Application < Rails::Application
+    # for bower and rails... http://dotwell.io/taking-advantage-of-bower-in-your-rails-4-app/
+    config.assets.paths << Rails.root.join('vendor', 'assets', 'components')
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.

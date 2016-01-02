@@ -14,4 +14,6 @@
 //= require jquery_ujs
 //= require bootstrap-sprockets
 //= require turbolinks
+//= require metisMenu/dist/metisMenu
+//= require startbootstrap-sb-admin-2/dist/js/sb-admin-2
 //= require_tree .

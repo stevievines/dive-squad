@@ -1,0 +1,20 @@
+{
+  "name": "dive_squad",
+  "homepage": "https://github.com/stevievines/dive-squad",
+  "authors": [
+    "stevievines <stevievines@gmail.com>"
+  ],
+  "description": "rails app for managing dive team",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "vendor/assets/components",
+    "test",
+    "tests"
+  ]
+}

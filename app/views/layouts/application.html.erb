@@ -7,11 +7,17 @@
     <%= csrf_meta_tags %>
   </head>
   <body>
-    <%= render 'layouts/header' %>
-    <div class="container">
-      <%= render 'layouts/messages' %>
+    <% if @current_coach.present? %>
+      <div id='wrapper'>
+        <%= render 'layouts/header' %>
+        <div id="page-wrapper" style="min-height: 319px;">
+          <%= render 'layouts/messages' %>
+          <%= yield %>
+          <%= debug(params) if Rails.env.development? %>
+        </div>
+      </div>
+    <% else %>
       <%= yield %>
-      <%= debug(params) if Rails.env.development? %>
-    </div>
+    <% end %>
   </body>
 </html>

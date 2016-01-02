@@ -1,17 +1,47 @@
-<h1>Diver: <%= @diver.name %></h1>
+<div class="row">
+  <div class="col-lg-12">
+    <h1 class="page-header"><%= @diver.name %></h1>
+  </div>
+</div>
 
-Coaches:
-<ul>
-  <% @diver.coaches.each do |coach| %>
-    <li><%= link_to(coach.name, coach_path(coach)) %></li>
-  <% end %>
-</ul>
+<div class="row">
+  <div class="col-lg-12">
+    <div class="pull-right">
+      <%= link_to('Add a List', new_diver_list_path(@diver), class: 'btn btn-primary') %>
+    </div>
+  </div>
+</div>
 
-Lists:
-<ul>
+<div class="row">
   <% @diver.lists.each do |list| %>
-    <li><%= link_to(list.name, diver_list_path(@diver, list)) %></li>
+    <div class="col-lg-6">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <i class="fa fa-list fa-fw"></i> <%= list.name %>
+        </div>
+        <div class="panel-body">
+          <div class="table-responsive">
+            <table class="table table-striped table-bordered table-hover">
+              <thead>
+                <tr>
+                  <th>Dive</th>
+                  <th>Height</th>
+                  <th>Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% list.dives.each do |dive| %>
+                <tr>
+                  <td><%= dive.number %></td>
+                  <td><%= dive.height %>M</td>
+                  <td><%= dive.description %></td>
+                </tr>
+              <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
   <% end %>
-</ul>
-
-<%= link_to('Add a List', new_diver_list_path(@diver)) %>
+</div>

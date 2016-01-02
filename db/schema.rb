@@ -13,6 +13,9 @@
 
 ActiveRecord::Schema.define(version: 20151231145713) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "coaches", force: :cascade do |t|
     t.string   "name",            null: false
     t.string   "email",           null: false
@@ -26,8 +29,8 @@ ActiveRecord::Schema.define(version: 20151231145713) do
     t.integer "coach_id"
   end
 
-  add_index "coaches_teams", ["coach_id"], name: "index_coaches_teams_on_coach_id"
-  add_index "coaches_teams", ["team_id"], name: "index_coaches_teams_on_team_id"
+  add_index "coaches_teams", ["coach_id"], name: "index_coaches_teams_on_coach_id", using: :btree
+  add_index "coaches_teams", ["team_id"], name: "index_coaches_teams_on_team_id", using: :btree
 
   create_table "divers", force: :cascade do |t|
     t.integer  "team_id",    null: false
@@ -39,7 +42,7 @@ ActiveRecord::Schema.define(version: 20151231145713) do
     t.datetime "updated_at", null: false
   end
 
-  add_index "divers", ["team_id"], name: "index_divers_on_team_id"
+  add_index "divers", ["team_id"], name: "index_divers_on_team_id", using: :btree
 
   create_table "dives", force: :cascade do |t|
     t.string   "number",      null: false
@@ -54,8 +57,8 @@ ActiveRecord::Schema.define(version: 20151231145713) do
     t.integer "dive_id", null: false
   end
 
-  add_index "list_dives", ["dive_id"], name: "index_list_dives_on_dive_id"
-  add_index "list_dives", ["list_id"], name: "index_list_dives_on_list_id"
+  add_index "list_dives", ["dive_id"], name: "index_list_dives_on_dive_id", using: :btree
+  add_index "list_dives", ["list_id"], name: "index_list_dives_on_list_id", using: :btree
 
   create_table "lists", force: :cascade do |t|
     t.integer  "diver_id",    null: false
@@ -65,7 +68,7 @@ ActiveRecord::Schema.define(version: 20151231145713) do
     t.datetime "updated_at",  null: false
   end
 
-  add_index "lists", ["diver_id"], name: "index_lists_on_diver_id"
+  add_index "lists", ["diver_id"], name: "index_lists_on_diver_id", using: :btree
 
   create_table "teams", force: :cascade do |t|
     t.string "name", null: false
