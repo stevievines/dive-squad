@@ -2,4 +2,12 @@
   <td><%= link_to(diver.name, diver_path(diver)) %></td>
   <td><%= diver.birthday %></td>
   <td><%= diver.dives.count %></td>
+  <td>
+    <%= link_to edit_diver_path(diver), remote: true do %>
+      <i class="fa fa-pencil-square-o"></i>
+    <% end %>
+    <%= link_to diver_path(diver), remote: true, method: :delete, data: { confirm: 'Are you sure?' } do %>
+      <i class="fa fa-trash-o"></i>
+    <% end %>
+  </td>
 </tr>

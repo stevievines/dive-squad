@@ -1,6 +1,8 @@
 class DiversController < ApplicationController
   before_action :authorize
-  before_action :all_teams, :all_divers, only: [:create]
+  before_action :all_teams, only: [:edit, :create, :update, :destroy]
+  before_action :all_divers, only: [:create, :update, :destroy]
+  before_action :set_diver, only: [:edit, :update, :destroy]
 
   def new
     @diver = Diver.new
@@ -15,7 +17,19 @@ class DiversController < ApplicationController
     @diver = Diver.find(params[:id])
   end
 
+  def update
+    @diver.update_attributes(diver_params)
+  end
+
+  def destroy
+    @diver.destroy
+  end
+
   private
+
+  def set_diver
+    @diver = @current_coach.divers.find(params[:id])
+  end
 
   def diver_params
     params.require(:diver).permit(:name, :birthday, :email, :phone, :team_id)
