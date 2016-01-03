@@ -2,6 +2,11 @@ class ListsController < ApplicationController
   before_action :authorize
   before_action :set_diver
 
+  def new
+    @list = List.new
+    @dives = Dive.all
+  end
+
   def create
     if @diver.lists.create(list_params)
       redirect_to diver_path(@diver)
@@ -21,6 +26,6 @@ class ListsController < ApplicationController
   end
 
   def list_params
-    params.require(:list).permit(:name, :description)
+    params.require(:list).permit(:name, :description, list_dives_attributes: [:dive_id])
   end
 end

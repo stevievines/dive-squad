@@ -1,6 +1,6 @@
 <div class="container">
   <div class="row">
-    <%= form_for :list, url: diver_lists_path(@diver) do |f| %>
+    <%= form_for setup_list(@list), url: diver_lists_path(@diver) do |f| %>
       <div class="form-group">
         <div class="field">
           <%= f.label :name %><br />
@@ -15,6 +15,27 @@
         </div>
       </div>
 
+      <div class="row">
+        <div class="col-xs-12 text-center">
+          <h3>Dives</h3>
+        </div>
+      </div>
+
+      <%= f.fields_for :list_dives do |ff| %>
+        <div>
+          <div class="form-group">
+            <div class="field">
+              <%= ff.select :dive_id, options_from_collection_for_select(@dives, :id, :display_description), { include_blank: true }, { class: 'form-control js-dive-select' } %>
+            </div>
+          </div>
+
+          <% if ff.object.persisted? %>
+            <%= ff.check_box :_destroy %>
+            <%= ff.label :_destroy, "Destroy" %>
+          <% end %>
+        </div>
+      <% end %>
+
       <div class="actions">
         <%= f.submit "Add List", class: 'btn btn-primary' %>
       </div>
@@ -22,3 +43,11 @@
   </div>
 </div>
 
+<script type="text/javascript">
+$(document).ready(function() {
+  $('.js-dive-select').select2({
+    placeholder: "Choose a dive",
+    allowClear: true
+  });
+});
+</script>

@@ -1,16 +1,18 @@
-<h1><%= @team.name %></h1>
+<div class="row">
+  <div class="col-xs-12">
+    <h1 class="page-header"><%= @team.name %></h1>
+  </div>
+</div>
 
-Coaches:
-<ul>
-  <% @team.coaches.each do |coach| %>
-    <li><%= link_to(coach.name, coach_path(coach)) %></li>
-  <% end %>
-</ul>
-
-Divers:
-<ul>
-  <% @team.divers.each do |diver| %>
-    <li><%= link_to(diver.name, diver_path(diver)) %></li>
-  <% end %>
-</ul>
-<%= link_to('Add a Diver', new_diver_path) %>
+<div class="row">
+  <div class="col-xs-12">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <i class="fa fa-anchor fa-fw"></i> Divers
+      </div>
+      <div class="panel-body">
+        <%= render 'shared/divers_table' %>
+      </div>
+    </div>
+  </div>
+</div>
