@@ -21,6 +21,6 @@ class ListDivesController < ApplicationController
   end
 
   def list_dive_params
-    params.require(:list_dive).permit(:dive_id)
+    params.require(:list_dive).permit(:dive_id, :notes)
   end
 end

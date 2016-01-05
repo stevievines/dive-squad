@@ -9,7 +9,7 @@
             <div class="panel-body">
               <% if diver.lists.any? %>
                 <% diver.lists.each do |list| %>
-                  <p class='text-center'><%= list.name.titleize %></p>
+                  <p class='text-center'><%= list.name.capitalize %></p>
                   <%= render partial: 'shared/list_table', locals: { list: list } %>
                 <% end %>
               <% else %>

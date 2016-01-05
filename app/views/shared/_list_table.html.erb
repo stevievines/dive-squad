@@ -3,16 +3,15 @@
     <thead>
       <tr>
         <th>Dive</th>
-        <th>Height</th>
-        <th>Description</th>
+        <th>Notes</th>
       </tr>
     </thead>
     <tbody>
-      <% list.dives.each do |dive| %>
+      <% list.list_dives.includes(:dive).each do |list_dive| %>
+        <% dive = list_dive.dive %>
         <tr>
-          <td><%= dive.number %></td>
-          <td><%= dive.height %>M</td>
-          <td><%= dive.description %></td>
+          <td><%= dive.display_description %></td>
+          <td><%= list_dive.notes %></td>
         </tr>
       <% end %>
     </tbody>

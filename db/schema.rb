@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151231145713) do
+ActiveRecord::Schema.define(version: 20160105015211) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -55,6 +55,7 @@ ActiveRecord::Schema.define(version: 20151231145713) do
   create_table "list_dives", force: :cascade do |t|
     t.integer "list_id", null: false
     t.integer "dive_id", null: false
+    t.string  "notes"
   end
 
   add_index "list_dives", ["dive_id"], name: "index_list_dives_on_dive_id", using: :btree

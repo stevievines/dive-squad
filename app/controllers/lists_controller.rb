@@ -26,6 +26,6 @@ class ListsController < ApplicationController
   end
 
   def list_params
-    params.require(:list).permit(:name, :description, list_dives_attributes: [:dive_id])
+    params.require(:list).permit(:name, :description, list_dives_attributes: [:dive_id, :notes])
   end
 end
