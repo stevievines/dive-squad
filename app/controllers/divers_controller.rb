@@ -1,7 +1,7 @@
 class DiversController < ApplicationController
   before_action :authorize
   before_action :all_teams, only: [:edit, :create, :update, :destroy]
-  before_action :all_divers, only: [:create, :update, :destroy]
+  before_action :all_divers, only: [:index, :create, :update, :destroy]
   before_action :set_diver, only: [:edit, :update, :destroy]
 
   def new
