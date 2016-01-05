@@ -1,0 +1,20 @@
+<div class="row">
+  <div class="col-xs-12">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <i class="fa fa-list fa-fw"></i> <%= list.name %>
+      <div class="pull-right">
+        <%= link_to edit_diver_list_path(list.diver, list), remote: true do %>
+          <i class="fa fa-pencil-square-o"></i>
+        <% end %>
+        <%= link_to diver_list_path(list.diver, list), remote: true, method: :delete, data: { confirm: 'Are you sure?' } do %>
+          <i class="fa fa-trash-o"></i>
+        <% end %>
+      </div>
+      </div>
+      <div class="panel-body">
+        <%= render partial: 'shared/list_table', locals: { list: list } %>
+      </div>
+    </div>
+  </div>
+</div>

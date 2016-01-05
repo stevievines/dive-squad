@@ -1,22 +1,28 @@
 class ListsController < ApplicationController
   before_action :authorize
   before_action :set_diver
+  before_action :set_dives, only: [:new, :edit]
+  before_action :set_list, only: [:edit, :update, :destroy]
 
   def new
     @list = List.new
-    @dives = Dive.all
   end
 
   def create
-    if @diver.lists.create(list_params)
-      redirect_to diver_path(@diver)
-    else
-      redirect_to new_diver_list_path(@diver)
-    end
+     @diver.lists.create(list_params)
   end
 
   def show
     @list = @diver.lists.find(params[:id])
+  end
+
+  def update
+    @list.update_attributes(list_params)
+    @lists = @diver.lists
+  end
+
+  def destroy
+    @list.destroy
   end
 
   private
@@ -25,7 +31,15 @@ class ListsController < ApplicationController
     @diver = @current_coach.divers.find(params[:diver_id])
   end
 
+  def set_dives
+    @dives = Dive.all
+  end
+
+  def set_list
+    @list = @diver.lists.find(params[:id])
+  end
+
   def list_params
-    params.require(:list).permit(:name, :description, list_dives_attributes: [:dive_id, :notes])
+    params.require(:list).permit(:name, :description, list_dives_attributes: [:dive_id, :notes, :_destroy, :id])
   end
 end

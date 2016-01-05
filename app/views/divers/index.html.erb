@@ -1,23 +1,21 @@
-<div class="container">
-  <div class="row">
-    <div class="col-xs-12">
-      <% @divers.each do |diver| %>
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <%= diver.name %>
-            </div>
-            <div class="panel-body">
-              <% if diver.lists.any? %>
-                <% diver.lists.each do |list| %>
-                  <p class='text-center'><%= list.name.capitalize %></p>
-                  <%= render partial: 'shared/list_table', locals: { list: list } %>
-                <% end %>
-              <% else %>
-                <p class="text-muted">No lists yet...</p>
-              <% end %>
-            </div>
+<div class="row">
+  <div class="col-xs-12">
+    <% @divers.each do |diver| %>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <%= diver.name %>
           </div>
-      <% end %>
-    </div>
+          <div class="panel-body">
+            <% if diver.lists.any? %>
+              <% diver.lists.each do |list| %>
+                <p class='text-center'><%= list.name.capitalize %></p>
+                <%= render partial: 'shared/list_table', locals: { list: list } %>
+              <% end %>
+            <% else %>
+              <p class="text-muted">No lists yet...</p>
+            <% end %>
+          </div>
+        </div>
+    <% end %>
   </div>
 </div>

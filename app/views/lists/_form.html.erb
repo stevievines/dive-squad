@@ -1,0 +1,65 @@
+<%= form_for setup_list(@list), url: diver_lists_path(@diver), remote: true do |f| %>
+  <div class="form-group">
+    <div class="field">
+      <%= f.label :name %><br />
+      <%= f.text_field :name, { autofocus: true, class: 'form-control' } %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class="field">
+      <%= f.label :description %><br />
+      <%= f.text_field :description, { class: 'form-control' } %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-12 text-center">
+      <h3>Dives</h3>
+    </div>
+  </div>
+
+  <%= f.fields_for :list_dives do |ff| %>
+    <div>
+      <div class="row">
+        <div class="col-xs-4">
+          <div class="form-group">
+            <div class="field">
+              <%= ff.select :dive_id, options_from_collection_for_select(@dives, :id, :display_description), { include_blank: true }, { class: 'form-control js-dive-select' } %>
+            </div>
+          </div>
+        </div>
+        <div class="col-xs-6">
+          <div class="form-group">
+            <div class="field">
+              <%= ff.text_field :notes, { placeholder: 'Enter a Note!', class: 'form-control' } %>
+            </div>
+          </div>
+        </div>
+
+      <% if ff.object.persisted? %>
+        <div class="col-xs-2">
+          <div class="form-group">
+            <div class="field">
+              <%= ff.check_box :_destroy %>
+              <%= ff.label :_destroy, "Check to Delete" %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= f.submit "Save", class: 'btn btn-primary' %>
+  </div>
+<% end %>
+<script type="text/javascript">
+$(document).ready(function() {
+  $('.js-dive-select').select2({
+    placeholder: "Choose a dive",
+    allowClear: true
+  });
+});
+</script>

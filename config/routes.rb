@@ -11,7 +11,7 @@ Rails.application.routes.draw do
   resources :coaches, only: [:create, :show]
   resources :teams
   resources :divers do
-    resources :lists, only: [:new, :create, :show] do
+    resources :lists, only: [:new, :edit, :create, :show, :update, :destroy] do
       resources :list_dives, only: [:new, :create]
     end
   end
