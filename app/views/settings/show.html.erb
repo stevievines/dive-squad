@@ -13,6 +13,23 @@
       </div>
       <div class="col-md-6">
         <h4>Google Drive Integration</h4>
+        <div class="text-center">
+          <% if @current_coach.google_drive_data.nil? %>
+            <div class="row">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/Google_Drive_Logo.svg/1183px-Google_Drive_Logo.svg.png" class="drive-logo" />
+            </div>
+            <div class="row">
+              <%= link_to('Connect Google Drive', 'auth/google_oauth2', class: 'btn btn-primary button-link') %>
+            </div>
+          <% else %>
+            <div class="row">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/Google_Drive_Logo.svg/1183px-Google_Drive_Logo.svg.png" class="drive-logo" />
+            </div>
+            <div class="row">
+              <%= link_to('Refresh Connection!', 'auth/google_oauth2', class: 'btn btn-primary') %>
+            </div>
+          <% end %>
+        </div>
       </div>
     </div>
   </div>
