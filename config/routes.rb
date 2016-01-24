@@ -7,8 +7,12 @@ Rails.application.routes.draw do
   delete '/logout' => 'sessions#destroy'
 
   get '/signup' => 'coaches#new'
+
+  get 'auth/google_oauth2/callback' => 'google_drives#create'
+
   resource :dashboard, only: :show
-  resources :coaches, only: [:create, :show]
+  resource :settings, only: :show
+  resources :coaches, only: [:create, :update, :show]
   resources :teams
   resources :divers do
     resources :lists, only: [:new, :edit, :create, :show, :update, :destroy] do

@@ -24,3 +24,6 @@
 
 # RVM ignore
 .rvmrc
+
+#dot-env environment variables
+.env

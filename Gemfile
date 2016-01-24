@@ -34,6 +34,10 @@
     # Use ActiveModel has_secure_password
     gem 'bcrypt', '~> 3.1.7'
 
+    # Use OmniAuth for Google Drive Integration
+    gem 'omniauth', '~> 1.2.2'
+    gem 'omniauth-google-oauth2'
+
     group :production do
       gem 'rails_12factor'
     end
@@ -52,4 +56,7 @@
 
       # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
       gem 'spring'
+
+      # dot-env for sensitive environment variables
+      gem 'dotenv-rails'
     end
