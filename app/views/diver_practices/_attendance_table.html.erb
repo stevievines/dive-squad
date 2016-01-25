@@ -1,0 +1,36 @@
+<table class="table table-striped table-bordered table-hover">
+  <thead>
+    <tr>
+      <th>Diver</th>
+      <% @practices.each do |practice| %>
+        <th><%= practice.date.strftime('%a %m/%d') %></th>
+      <% end %>
+    </tr>
+  </thead>
+  <tbody>
+    <% @divers.each do |diver| %>
+      <tr>
+        <td><%= diver.name %></td>
+        <% @practices.each do |practice| %>
+          <td>
+            <!-- TODO prevent duplicate database calls here! -->
+            <% diver_practice = diver.diver_practices.find { |dp| dp.practice == practice } %>
+            <% if diver_practice.present? %>
+              <% if diver_practice.was_present? %>
+                <%= link_to mark_absent_diver_diver_practice_path(diver, diver_practice), method: :post, remote: true do %>
+                  <i class="fa fa-check green"></i>
+                <% end %>
+              <% elsif diver_practice.was_absent? %>
+                <%= link_to mark_present_diver_diver_practice_path(diver, diver_practice), method: :post, remote: true do %>
+                  <i class="fa fa-times red"></i>
+                <% end %>
+              <% end %>
+            <% else %>
+              <i class="fa fa-times red"></i>
+            <% end %>
+          </td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

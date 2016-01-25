@@ -13,8 +13,21 @@ Rails.application.routes.draw do
   resource :dashboard, only: :show
   resource :settings, only: :show
   resources :coaches, only: [:create, :update, :show]
-  resources :teams
+  resources :teams do
+    resources :practices, only: [] do
+      collection do
+        post :add_practices
+      end
+    end
+    resource :attendance, only: :show
+  end
   resources :divers do
+    resources :diver_practices do
+      member do
+        post :mark_absent
+        post :mark_present
+      end
+    end
     resources :lists, only: [:new, :edit, :create, :show, :update, :destroy] do
       resources :list_dives, only: [:new, :create]
     end
