@@ -24,7 +24,6 @@ class GoogleDriveRequest
       headers: headers.merge('Content-Type' => 'application/json; charset=UTF-8'),
       body: { name: name }
     )
-    binding.pry
   end
 
   def refresh
