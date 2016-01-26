@@ -6,6 +6,12 @@ class PracticesController < ApplicationController
     redirect_to :back, flash: { success: 'Practices Added!' }
   end
 
+  def export_practices
+    google_drive_request = GoogleDriveRequest.new(coach: @current_coach)
+    google_drive_request.upload_team_attendance(team: @team)
+    redirect_to :back, flash: { success: 'Practices Exported!' }
+  end
+
   private
 
   def set_team

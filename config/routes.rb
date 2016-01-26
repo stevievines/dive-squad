@@ -17,6 +17,7 @@ Rails.application.routes.draw do
     resources :practices, only: [] do
       collection do
         post :add_practices
+        post :export_practices
       end
     end
     resource :attendance, only: :show

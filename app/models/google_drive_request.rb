@@ -55,4 +55,13 @@ class GoogleDriveRequest
     # not sure how to do spreadsheets with multiple tabs though
   end
 
+  def upload_team_attendance(team:)
+    HTTParty.post(
+      "https://www.googleapis.com/upload/drive/v3/files",
+      query: { upload_type: "media", convert: true },
+      headers: headers.merge('Content-Type' => 'text/csv'),
+      body: team.current_month_attendance_to_csv
+    )
+  end
+
 end
