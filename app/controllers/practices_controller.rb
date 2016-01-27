@@ -1,5 +1,6 @@
 class PracticesController < ApplicationController
   before_action :authorize, :set_team
+  before_action :set_practice, only: :destroy
 
   def add_practices
     find_or_create_practices
@@ -12,10 +13,19 @@ class PracticesController < ApplicationController
     redirect_to :back, flash: { success: 'Practices Exported!' }
   end
 
+  def destroy
+    @practice.destroy
+    redirect_to :back, flash: { success: 'Practice Removed' }
+  end
+
   private
 
   def set_team
     @team = @current_coach.teams.find(params[:team_id])
+  end
+
+  def set_practice
+    @practice = @team.practices.find(params[:id])
   end
 
   def find_or_create_practices

@@ -1,9 +1,14 @@
 <table class="table table-striped table-bordered table-hover">
   <thead>
-    <tr>
+    <tr style='white-space: nowrap;'>
       <th>Diver</th>
       <% @practices.each do |practice| %>
-        <th><%= practice.date.strftime('%a %m/%d') %></th>
+        <th>
+          <%= practice.date.strftime('%a %m/%d') %>
+          <%= link_to team_practice_path(@team, practice), method: :delete, data: { confirm: 'Are you sure?' } do %>
+            <i class="fa fa-trash-o"></i>
+          <% end %>
+        </th>
       <% end %>
     </tr>
   </thead>

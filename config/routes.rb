@@ -14,7 +14,7 @@ Rails.application.routes.draw do
   resource :settings, only: :show
   resources :coaches, only: [:create, :update, :show]
   resources :teams do
-    resources :practices, only: [] do
+    resources :practices, only: [:destroy] do
       collection do
         post :add_practices
         post :export_practices
