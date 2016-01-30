@@ -41,12 +41,12 @@
           <div class="form-group">
             <%= select_tag(:practice_days, options_for_select([['Monday', 1], ['Tuesday', 2], ['Wednesday', 3], ['Thursday', 4], ['Friday', 5], ['Saturday', 6], ['Sunday', 0]]), multiple: true, class: 'form-control js-day-select') %>
           </div>
-          <%= submit_tag "Add #{Date.today.strftime('%B')} Practices", class: 'btn btn-primary' %>
+          <%= submit_tag "Add #{Date.today.strftime('%B')} Practices", class: 'btn btn-primary', data: { disable_with: 'Loading...' } %>
         <% end %>
       </div>
       <% if @current_coach.google_drive_data.present? %>
         <div class="col-xs-6 text-right">
-          <%= link_to("Export #{Date.today.strftime('%B')} Practices", export_practices_team_practices_path(@team), method: :post, class: 'btn btn-primary') %>
+          <%= link_to("Export #{Date.today.strftime('%B')} Practices", export_practices_team_practices_path(@team), method: :post, class: 'btn btn-primary', data: { disable_with: 'Loading...' }) %>
         </div>
       <% end %>
     </div>

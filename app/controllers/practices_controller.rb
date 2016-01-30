@@ -3,7 +3,7 @@ class PracticesController < ApplicationController
   before_action :set_practice, only: :destroy
 
   def add_practices
-    find_or_create_practices
+    find_or_create_practices if params[:practice_days].present?
     redirect_to :back, flash: { success: 'Practices Added!' }
   end
 
