@@ -9,8 +9,11 @@ class PracticesController < ApplicationController
 
   def export_practices
     google_drive_request = GoogleDriveRequest.new(coach: @current_coach)
-    google_drive_request.upload_team_attendance(team: @team)
-    redirect_to :back, flash: { success: 'Practices Exported!' }
+    if google_drive_request.upload_team_attendance(team: @team)
+      redirect_to :back, flash: { success: 'Practices Exported!' }
+    else
+      redirect_to :back, flash: { danger: 'Export Failed! Try Reconnecting your Google Account on the Settings Page.' }
+    end
   end
 
   def destroy

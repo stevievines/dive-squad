@@ -15,9 +15,9 @@ class Team < ActiveRecord::Base
         practices.each do |practice|
           dpra = diver.diver_practices.find {|dp| dp.practice == practice }
           status = if dpra.present?
-                     dpra.was_present? ? 'Present' : 'Absent'
+                     dpra.was_present? ? 'Present' : nil
                    else
-                     'Absent'
+                     nil
                    end
           diver_attendance << status
         end

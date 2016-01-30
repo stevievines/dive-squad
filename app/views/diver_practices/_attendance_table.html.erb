@@ -18,20 +18,13 @@
         <td><%= diver.name %></td>
         <% @practices.each do |practice| %>
           <td>
-            <!-- TODO prevent duplicate database calls here! -->
             <% diver_practice = diver.diver_practices.find { |dp| dp.practice == practice } %>
             <% if diver_practice.present? %>
-              <% if diver_practice.was_present? %>
-                <%= link_to mark_absent_diver_diver_practice_path(diver, diver_practice), method: :post, remote: true do %>
-                  <i class="fa fa-check green"></i>
-                <% end %>
-              <% elsif diver_practice.was_absent? %>
-                <%= link_to mark_present_diver_diver_practice_path(diver, diver_practice), method: :post, remote: true do %>
-                  <i class="fa fa-times red"></i>
-                <% end %>
-              <% end %>
+              <div id="toggle-practice-attendance-<%= diver_practice.id %>">
+                <%= render partial: 'diver_practices/toggle_attendance_link', locals: { diver: diver, diver_practice: diver_practice } %>
+              </div>
             <% else %>
-              <i class="fa fa-times red"></i>
+              N/A (Add Practices)
             <% end %>
           </td>
         <% end %>

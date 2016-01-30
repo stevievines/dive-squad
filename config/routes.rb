@@ -25,8 +25,7 @@ Rails.application.routes.draw do
   resources :divers do
     resources :diver_practices do
       member do
-        post :mark_absent
-        post :mark_present
+        post :toggle_attendance
       end
     end
     resources :lists, only: [:new, :edit, :create, :show, :update, :destroy] do

@@ -1,0 +1,7 @@
+<%= link_to toggle_attendance_diver_diver_practice_path(diver, diver_practice), method: :post, remote: true do %>
+  <% if diver_practice.was_present? %>
+    <i class="fa fa-check green"></i>
+  <% elsif diver_practice.was_absent? %>
+    <i class="fa fa-times red"></i>
+  <% end %>
+<% end %>

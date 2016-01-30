@@ -1,0 +1,1 @@
+$("#toggle-practice-attendance-<%= @diver_practice.id %>").html("<%= escape_javascript(render partial: 'toggle_attendance_link', locals: { diver: @diver, diver_practice: @diver_practice }) %>");
