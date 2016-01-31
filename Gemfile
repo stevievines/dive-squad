@@ -11,6 +11,9 @@ gem 'pg'
 gem 'bootstrap-sass'
 gem 'sass-rails', '~> 5.0'
 
+# use chartkick for charting
+gem 'chartkick'
+
 # Fontawesome gem
 gem 'font-awesome-sass'
 

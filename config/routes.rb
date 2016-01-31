@@ -24,6 +24,8 @@ Rails.application.routes.draw do
       end
     end
     resource :attendance, only: :show
+    # TODO: move to reporting module?
+    resource :attendance_report, only: :show
   end
   resources :divers do
     resources :diver_practices do

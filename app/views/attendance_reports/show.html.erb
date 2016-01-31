@@ -1,0 +1,13 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-xs-12">
+      <h1 class="page-header"><%= @team.name %> Attendance Report</h1>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-12">
+      <%= area_chart(@line_chart_data, {discrete: true, library: {hAxis: {title: "Practice Date"}, vAxis: {title: "Attendance Percentage"}}}) %>
+    </div>
+  </div>
+</div>
