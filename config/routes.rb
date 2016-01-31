@@ -10,6 +10,9 @@ Rails.application.routes.draw do
 
   get 'auth/google_oauth2/callback' => 'google_drives#create'
 
+  post 'diver_practices/set_minutes_late' => 'diver_practices#set_minutes_late'
+  post 'diver_practices/set_excuse' => 'diver_practices#set_excuse'
+
   resource :dashboard, only: :show
   resource :settings, only: :show
   resources :coaches, only: [:create, :update, :show]

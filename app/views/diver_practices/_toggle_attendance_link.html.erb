@@ -5,3 +5,29 @@
     <i class="fa fa-times red"></i>
   <% end %>
 <% end %>
+
+<% if diver_practice.was_present? %>
+  <%= link_to '#', remote: true, class: 'pull-right', data: {
+    toggle: "modal",
+    target: "#minutes-late-modal",
+    diver_practice_id: diver_practice.id,
+    diver_id: diver.id,
+    diver_name: diver.name,
+    minutes_late: diver_practice.minutes_late
+  } do %>
+    <i class="fa fa-clock-o"></i>
+  <% end %>
+
+<% elsif diver_practice.was_absent? %>
+  <%= link_to '#', remote: true, class: 'pull-right', data: {
+    toggle: "modal",
+    target: "#late-excuse-modal",
+    diver_practice_id: diver_practice.id,
+    diver_id: diver.id,
+    diver_name: diver.name,
+    excuse: diver_practice.excuse,
+    excused_absence: diver_practice.excused_absence?
+  } do %>
+    <i class="fa fa-pencil"></i>
+  <% end %>
+<% end %>

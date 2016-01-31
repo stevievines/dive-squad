@@ -53,6 +53,62 @@
   </div>
 </div>
 
+<div class="modal fade" id="minutes-late-modal" tabindex="-1" role="dialog" aria-labelledby="minutes-late-modal-label">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="minutes-late-modal-label">How many minutes late?</h4>
+      </div>
+      <div class="modal-body">
+        <%= form_tag diver_practices_set_minutes_late_path, class: 'form form-inline' do %>
+          <%= number_field_tag :minutes_late, nil, { autofocus: true, class: 'form-control' } %>
+          <%= hidden_field_tag "diver_id", nil %>
+          <%= hidden_field_tag "id", nil %>
+          <%= submit_tag 'Save', class: 'btn btn-primary' %>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="late-excuse-modal" tabindex="-1" role="dialog" aria-labelledby="late-excuse-modal-label">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="late-excuse-modal-label">Excused Absence?</h4>
+      </div>
+      <div class="modal-body">
+        <%= form_tag diver_practices_set_excuse_path do %>
+            <div class="form-group">
+              <div class="field">
+                <%= label_tag :excuse %>
+                <%= text_field_tag :excuse, nil, { autofocus: true, class: 'form-control' } %>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="field">
+                <%= label_tag :excused_absence, 'Excusable Absence?' %>
+                <%= check_box_tag :excused_absence, nil, false %>
+              </div>
+            </div>
+
+            <%= hidden_field_tag "diver_id", nil %>
+            <%= hidden_field_tag "id", nil %>
+
+            <div class="actions">
+              <%= submit_tag 'Save', class: 'btn btn-primary' %>
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script type="text/javascript">
 $(document).ready(function() {
   $('.js-day-select').select2({
@@ -60,5 +116,39 @@ $(document).ready(function() {
     allowClear: true,
     width: '100%'
   });
+
+  $('#minutes-late-modal').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget); // Button that triggered the modal
+    // Extract info from data-* attributes
+    var diver = button.data('diver-name');
+    var diverId = button.data('diver-id');
+    var diverPracticeId = button.data('diver-practice-id');
+    var minutesLate = button.data('minutes-late');
+    var excusedAbsence = button.data('excused-absence');
+    // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+    var modal = $(this);
+    modal.find('.modal-title').text('How many minutes late was ' + diver + '?');
+    modal.find('#minutes_late').val(minutesLate);
+    modal.find('#diver_id').val(diverId);
+    modal.find('#excused_absence').val(excusedAbsence);
+    modal.find('#id').val(diverPracticeId);
+  })
+
+  $('#late-excuse-modal').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget); // Button that triggered the modal
+    // Extract info from data-* attributes
+    var diver = button.data('diver-name');
+    var diverId = button.data('diver-id');
+    var diverPracticeId = button.data('diver-practice-id');
+    var excuse = button.data('excuse');
+    var isExcused = button.data('excused-absence');
+    // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+    var modal = $(this);
+    modal.find('.modal-title').text('Does ' + diver + ' have an excused absence?');
+    modal.find('#excuse').val(excuse);
+    modal.find('#excused_absence').prop('checked', isExcused);
+    modal.find('#diver_id').val(diverId);
+    modal.find('#id').val(diverPracticeId);
+  })
 });
 </script>

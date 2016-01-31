@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160125035909) do
+ActiveRecord::Schema.define(version: 20160131002227) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,6 +41,7 @@ ActiveRecord::Schema.define(version: 20160125035909) do
     t.integer  "practice_id",                     null: false
     t.datetime "created_at",                      null: false
     t.datetime "updated_at",                      null: false
+    t.string   "excuse"
   end
 
   add_index "diver_practices", ["diver_id"], name: "index_diver_practices_on_diver_id", using: :btree

@@ -5,6 +5,19 @@ class DiverPracticesController < ApplicationController
     @diver_practice.toggle!(:was_present)
   end
 
+  def set_minutes_late
+    @diver_practice.update(minutes_late: params[:minutes_late])
+    redirect_to :back, flash: { success: 'Diver lateness has been recorded!' }
+  end
+
+  def set_excuse
+    @diver_practice.update(
+      excuse: params[:excuse],
+      excused_absence: params[:excused_absence].present?
+    )
+    redirect_to :back, flash: { success: 'Excuse saved!' }
+  end
+
   private
 
   def set_diver
