@@ -7,7 +7,7 @@
 
   <div class="row">
     <div class="col-xs-12">
-      <%= area_chart(@line_chart_data, {discrete: true, library: {hAxis: {title: "Practice Date"}, vAxis: {title: "Attendance Percentage"}}}) %>
+      <%= area_chart(@line_chart_data, discrete: true, xtitle: 'Practice Date', ytitle: 'Attendance Percentage') %>
     </div>
   </div>
 </div>

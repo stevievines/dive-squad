@@ -32,6 +32,6 @@ class DiversController < ApplicationController
   end
 
   def diver_params
-    params.require(:diver).permit(:name, :birthday, :email, :phone, :team_id)
+    params.require(:diver).permit(:name, :join_date, :birthday, :email, :phone, :team_id)
   end
 end
