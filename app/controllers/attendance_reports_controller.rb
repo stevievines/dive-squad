@@ -26,7 +26,7 @@ class AttendanceReportsController < ApplicationController
         @team.practices.joins(:diver_practices)
           .select("practices.*, (count(diver_practices.id) / #{team_divers}) as attendance_percentage")
           .where(diver_practices: { was_present: true })
-          .group("practices.id").each { |practice| results[practice.date.strftime('%a %m/%d')] = 100 * practice.attendance_percentage.round(2) }
+          .order(:date).group("practices.id").each { |practice| results[practice.date.strftime('%a %m/%d')] = 100 * practice.attendance_percentage.round(2) }
       end
     else
       {}
