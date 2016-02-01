@@ -6,8 +6,81 @@
   </div>
 
   <div class="row">
-    <div class="col-xs-12">
-      <%= column_chart(@line_chart_data, discrete: true, xtitle: 'Practice Date', ytitle: 'Attendance Percentage') %>
+    <div class="col-md-6">
+      <div class="text-center">
+        <h5>Team Attendance</h5>
+      </div>
+      <%= column_chart(
+        @line_chart_data,
+        discrete: true,
+        library: {
+          chartArea: {
+            height: '70%',
+            width: '85%',
+            top: '10%'
+          },
+          animation: {
+            duration: 600,
+            easing: 'linear',
+            startup: true
+          }
+        },
+        ytitle: 'Attendance Percentage',
+        colors: ['#2577B5']) %>
     </div>
+    <div class="col-md-6">
+      <div class="text-center">
+        <h5>Attendance by Day</h5>
+      </div>
+      <%= column_chart(
+        @attendance_by_day_data,
+        discrete: true,
+        library: {
+          chartArea: {
+            height: '70%',
+            width: '85%',
+            top: '10%'
+          },
+          animation: {
+            duration: 600,
+            easing: 'linear',
+            startup: true
+          }
+        },
+        ytitle: 'Average Attendance',
+        colors: ['#7CB47C']
+      ) %>
+    </div>
+  </div>
+
+  <div class="row">
+    <% @diver_averages.each do |diver, average| %>
+      <% if average > 70 %>
+        <% color_class = 'success' %>
+        <% icon = 'fa-thumbs-o-up' %>
+      <% elsif average < 50 %>
+        <% color_class = 'danger' %>
+        <% icon = 'fa-thumbs-o-down' %>
+      <% else %>
+        <% color_class = 'warning' %>
+        <% icon = 'fa-hand-rock-o' %>
+      <% end %>
+
+      <div class="col-lg-3 col-md-6">
+        <div class="panel panel-<%= color_class %>">
+          <div class="panel-heading">
+            <div class="row">
+              <div class="col-xs-3">
+                <i class="fa <%= icon %> fa-5x"></i>
+              </div>
+              <div class="col-xs-9 text-right">
+                <div class="huge"><%= average %>%</div>
+                <div class="medium"><%= diver.name %></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
   </div>
 </div>
