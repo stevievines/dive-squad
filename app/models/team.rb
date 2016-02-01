@@ -5,7 +5,7 @@ class Team < ActiveRecord::Base
   has_many :practice_schedules
 
   def current_month_attendance_to_csv
-    practices = self.practices.where(date: Date.today.beginning_of_month..Date.today)
+    practices = self.practices
     headers = ['Diver'].concat(practices.map(&:date))
 
     CSV.generate do |csv|
