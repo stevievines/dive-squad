@@ -3,7 +3,7 @@
 To dump from heroku and load into local:
 
 Capture the backup: `heroku pg:backups capture`
-Download the backup: `curl -o latest.dump` `heroku pg:backups public-url`
+Download the backup: `curl -o latest.dump ``` `heroku pg:backups public-url` ``` `
 Recreate database: `rake db:drop; rake db:create`
 Load dump: `pg_restore -O -d dive_squad_development latest.dump`
 
