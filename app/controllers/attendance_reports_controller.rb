@@ -1,9 +1,6 @@
 class AttendanceReportsController < ApplicationController
   before_action :authorize, :set_team, :set_line_chart_data, :set_attendance_by_day_data, :set_diver_averages
 
-  def show
-  end
-
   private
 
   def set_team
@@ -24,7 +21,7 @@ class AttendanceReportsController < ApplicationController
 
   def build_diver_averages
     {}.tap do |results|
-      @team.divers.joins(:diver_practices)
+      @team.divers.joins(:practices).where("practices.date <= (?)", Date.today)
         .select("divers.*, (sum(case when diver_practices.was_present then 1 else 0 end) / count(diver_practices.id)::float) as attendance_percentage")
         .group("divers.id").each { |diver| results[diver] = (100 * diver.attendance_percentage).round(0) }
     end.sort_by { |diver, average| average }.reverse
@@ -34,6 +31,7 @@ class AttendanceReportsController < ApplicationController
     results = {}
     @team.practices.joins(:diver_practices)
       .select("practices.*, (sum(case when diver_practices.was_present then 1 else 0 end) / count(diver_practices.id)::float) as attendance_percentage")
+      .where("practices.date <= (?)", Date.today)
       .order(:date).group("practices.id")
       .each do |practice|
         results[practice.date.wday] ||= []
@@ -49,6 +47,7 @@ class AttendanceReportsController < ApplicationController
     {}.tap do |results|
       @team.practices.joins(:diver_practices)
         .select("practices.*, (sum(case when diver_practices.was_present then 1 else 0 end) / count(diver_practices.id)::float) as attendance_percentage")
+        .where("practices.date <= (?)", Date.today)
         .order(:date).group("practices.id")
         .each { |practice| results[practice.date.strftime('%-m/%-d')] = (100 * practice.attendance_percentage).round(0) }
     end

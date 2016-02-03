@@ -17,12 +17,12 @@ class AttendancesController < ApplicationController
 
   def set_practices
     case params[:date_range]
-    when 'day'
+    when 'today'
       @team.practices.where(date: Date.today).order(:date)
-    when 'week'
-      @team.practices.where(date: 7.days.ago..Date.today).order(:date)
-    when 'month'
-      @team.practices.where(date: 30.days.ago..Date.today).order(:date)
+    when 'this_week'
+      @team.practices.where(date: Date.today.beginning_of_week..Date.today.end_of_week).order(:date)
+    when 'this_month'
+      @team.practices.where(date: Date.today.beginning_of_month..Date.today.end_of_month).order(:date)
     else
       @team.practices.where(date: Date.today).order(:date)
     end

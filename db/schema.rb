@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160131202730) do
+ActiveRecord::Schema.define(version: 20160203025044) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -88,10 +88,11 @@ ActiveRecord::Schema.define(version: 20160131202730) do
   add_index "lists", ["diver_id"], name: "index_lists_on_diver_id", using: :btree
 
   create_table "practices", force: :cascade do |t|
-    t.date     "date",       null: false
-    t.integer  "team_id",    null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.date     "date",                       null: false
+    t.integer  "team_id",                    null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.boolean  "is_makeup",  default: false
   end
 
   add_index "practices", ["team_id"], name: "index_practices_on_team_id", using: :btree
