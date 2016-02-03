@@ -23,6 +23,9 @@ class AttendanceReportsController < ApplicationController
     {}.tap do |results|
       @team.divers.joins(:practices).where("practices.date <= (?)", Date.today)
         .select("divers.*, (sum(case when diver_practices.was_present then 1 else 0 end) / count(diver_practices.id)::float) as attendance_percentage")
+        .select("sum(case when diver_practices.excused_absence then 1 else 0 end) as excused_absence_count")
+        .select("sum(case when diver_practices.was_present then 1 else 0 end) as practices_made_count")
+        .select("sum(case when diver_practices.was_present then 0 else 1 end) as absence_count")
         .group("divers.id").each { |diver| results[diver] = (100 * diver.attendance_percentage).round(0) }
     end.sort_by { |diver, average| average }.reverse
   end
