@@ -3,7 +3,7 @@ class PracticesController < ApplicationController
   before_action :set_practice, only: :destroy
 
   def add_practices
-    find_or_create_practices if params[:practice_days].present?
+    params[:practice_days].present? ? find_or_create_practices : find_or_create_single_practice
     redirect_to :back, flash: { success: 'Practices Added!' }
   end
 
@@ -38,6 +38,11 @@ class PracticesController < ApplicationController
         find_or_create_diver_practices(practice)
       end
     end
+  end
+
+  def find_or_create_single_practice
+    practice = @team.practices.find_or_create_by(date: params[:date], is_makeup: params[:is_makeup].present?)
+    find_or_create_diver_practices(practice)
   end
 
   def is_practice_day?(day)
