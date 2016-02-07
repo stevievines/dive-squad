@@ -3,70 +3,86 @@
     <h1 class="page-header">Your Squad</h1>
   </div>
 </div>
-<div class="row">
-  <div class="col-xs-6 col-xs-6">
-    <div class="panel panel-primary">
-      <div class="panel-heading">
-        <div class="row">
-          <div class="col-xs-3">
-            <i class="fa fa-users fa-5x"></i>
+
+<ul class="nav nav-tabs">
+  <li role="presentation" class="active"><a data-toggle="tab" href="#teams">Teams</a></li>
+  <li role="presentation"><a data-toggle="tab" href="#divers">Divers</a></li>
+</ul>
+
+<div class="tab-content">
+  <div id="teams" class="tab-pane fade in active">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="panel panel-primary dashboard-panel">
+          <div class="panel-heading">
+            <div class="row">
+              <div class="col-xs-3">
+                <i class="fa fa-users fa-5x"></i>
+              </div>
+              <div class="col-xs-9 text-right">
+                <div class="huge" id="teams-count"><%= @teams.count %></div>
+                <div>Team(s)</div>
+              </div>
+            </div>
           </div>
-          <div class="col-xs-9 text-right">
-            <div class="huge" id="teams-count"><%= @teams.count %></div>
-            <div>Team(s)</div>
-          </div>
+          <a href="#">
+            <div class="panel-footer">
+              <span class="pull-left">View Details</span>
+              <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+              <div class="clearfix"></div>
+            </div>
+          </a>
         </div>
       </div>
-      <a href="#">
-        <div class="panel-footer">
-          <span class="pull-left">View Details</span>
-          <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-          <div class="clearfix"></div>
-        </div>
-      </a>
     </div>
-  </div>
-  <div class="col-xs-6 col-xs-6">
-    <div class="panel panel-green">
-      <div class="panel-heading">
-        <div class="row">
-          <div class="col-xs-3">
-            <i class="fa fa-anchor fa-5x"></i>
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <i class="fa fa-users fa-fw"></i> Teams
           </div>
-          <div class="col-xs-9 text-right">
-            <div class="huge" id="divers-count"><%= @divers.count %></div>
-            <div>Diver(s)</div>
+          <div class="panel-body">
+            <%= render 'shared/teams_table' %>
           </div>
         </div>
-      </div>
-      <a href=<%= divers_path %>>
-        <div class="panel-footer">
-          <span class="pull-left">View Details</span>
-          <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-          <div class="clearfix"></div>
-        </div>
-      </a>
-    </div>
-  </div>
-</div>
-<div class="row">
-  <div class="col-xs-6">
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <i class="fa fa-users fa-fw"></i> Teams
-      </div>
-      <div class="panel-body">
-        <%= render 'shared/teams_table' %>
       </div>
     </div>
   </div>
-  <div class="col-xs-6">
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <i class="fa fa-anchor fa-fw"></i> Divers
+  <div id="divers" class="tab-pane fade">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="panel panel-green dashboard-panel">
+          <div class="panel-heading">
+            <div class="row">
+              <div class="col-xs-3">
+                <i class="fa fa-anchor fa-5x"></i>
+              </div>
+              <div class="col-xs-9 text-right">
+                <div class="huge" id="divers-count"><%= @divers.count %></div>
+                <div>Diver(s)</div>
+              </div>
+            </div>
+          </div>
+          <a href=<%= divers_path %>>
+            <div class="panel-footer">
+              <span class="pull-left">View Details</span>
+              <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+              <div class="clearfix"></div>
+            </div>
+          </a>
+        </div>
       </div>
-      <div class="panel-body">
-        <%= render 'shared/divers_table' %>
+    </div>
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <i class="fa fa-anchor fa-fw"></i> Divers
+          </div>
+          <div class="panel-body">
+            <%= render 'shared/divers_table' %>
+          </div>
+        </div>
       </div>
     </div>
   </div>

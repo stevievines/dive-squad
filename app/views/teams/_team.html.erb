@@ -1,6 +1,7 @@
 <tr>
   <td><%= link_to(team.name, team_path(team)) %></td>
   <td><%= team.divers.count %></td>
+  <td><%= link_to('Update Attendance', team_attendance_path(team)) %>, <%= link_to('View Report', team_attendance_report_path(team)) %></td>
   <td>
     <%= link_to edit_team_path(team), remote: true do %>
       <i class="fa fa-pencil-square-o"></i>
