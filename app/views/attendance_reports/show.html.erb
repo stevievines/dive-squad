@@ -4,6 +4,26 @@
       <h1 class="page-header"><%= @team.name %> Attendance Report</h1>
     </div>
   </div>
+  <div class="row">
+    <div class="col-xs-12 text-right">
+      <div class="btn-group">
+        <button type="button" class="btn btn-primary dropdown-toggle" style='margin-bottom: 10px;' data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <%= params[:date_range].present? ? params[:date_range].titleize : 'All Time' %> <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-right">
+          <li>
+            <%= link_to('All Time', team_attendance_report_path(@team, date_range: 'all_time')) %>
+          </li>
+          <li>
+            <%= link_to('This Month', team_attendance_report_path(@team, date_range: 'this_month')) %>
+          </li>
+          <li>
+            <%= link_to('This Week', team_attendance_report_path(@team, date_range: 'this_week')) %>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
 
   <div class="row">
     <div class="col-md-6">

@@ -1,5 +1,9 @@
 class AttendanceReportsController < ApplicationController
-  before_action :authorize, :set_team, :set_line_chart_data, :set_attendance_by_day_data, :set_diver_averages
+  before_action :authorize,
+                :set_team,
+                :set_line_chart_data,
+                :set_attendance_by_day_data,
+                :set_diver_averages
 
   private
 
@@ -21,7 +25,7 @@ class AttendanceReportsController < ApplicationController
 
   def build_diver_averages
     {}.tap do |results|
-      @team.divers.joins(:practices).where("practices.date <= (?)", Date.today)
+      report_divers
         .select("divers.*, (sum(case when diver_practices.was_present then 1 else 0 end) / count(diver_practices.id)::float) as attendance_percentage")
         .select("sum(case when diver_practices.excused_absence then 1 else 0 end) as excused_absence_count")
         .select("sum(case when diver_practices.was_present then 1 else 0 end) as practices_made_count")
@@ -30,9 +34,22 @@ class AttendanceReportsController < ApplicationController
     end.sort_by { |diver, average| average }.reverse
   end
 
+  def report_divers
+    case params[:date_range]
+    when 'all_time'
+      @team.divers.joins(:practices).where("practices.date <= (?)", Date.today)
+    when 'this_week'
+      @team.divers.joins(:practices).where("practices.date >= (?) AND practices.date <= (?)", Date.today.beginning_of_week, Date.today)
+    when 'this_month'
+      @team.divers.joins(:practices).where("practices.date >= (?) AND practices.date <= (?)", Date.today.beginning_of_month, Date.today)
+    else
+      @team.divers.joins(:practices).where("practices.date <= (?)", Date.today)
+    end
+  end
+
   def build_attendance_by_day_data
     results = {}
-    @team.practices.joins(:diver_practices)
+    report_practices.joins(:diver_practices)
       .select("practices.*, (sum(case when diver_practices.was_present then 1 else 0 end) / count(diver_practices.id)::float) as attendance_percentage")
       .where("practices.date <= (?)", Date.today)
       .order(:date).group("practices.id")
@@ -48,11 +65,24 @@ class AttendanceReportsController < ApplicationController
 
   def build_line_data
     {}.tap do |results|
-      @team.practices.joins(:diver_practices)
+      report_practices.joins(:diver_practices)
         .select("practices.*, (sum(case when diver_practices.was_present then 1 else 0 end) / count(diver_practices.id)::float) as attendance_percentage")
         .where("practices.date <= (?)", Date.today)
         .order(:date).group("practices.id")
         .each { |practice| results[practice.date.strftime('%-m/%-d')] = (100 * practice.attendance_percentage).round(0) }
+    end
+  end
+
+  def report_practices
+    case params[:date_range]
+    when 'all_time'
+      @team.practices.where("practices.date <= (?)", Date.today)
+    when 'this_week'
+      @team.practices.where(date: Date.today.beginning_of_week..Date.today).order(:date)
+    when 'this_month'
+      @team.practices.where(date: Date.today.beginning_of_month..Date.today).order(:date)
+    else
+      @team.practices.where("practices.date <= (?)", Date.today)
     end
   end
 
