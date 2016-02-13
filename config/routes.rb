@@ -28,6 +28,9 @@ Rails.application.routes.draw do
     resource :attendance_report, only: :show
   end
   resources :divers do
+    member do
+      post :deactivate
+    end
     resources :diver_practices do
       member do
         post :toggle_attendance

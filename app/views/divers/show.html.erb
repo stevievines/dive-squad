@@ -10,10 +10,49 @@
       <div class="col-xs-8 col-xs-offset-2" id="list-form" style="display:none;"></div>
     </div>
     <div class="pull-right">
+      <% unless @diver.deactivated_at.present? %>
+        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deactivation-modal">
+          Deactivate
+        </button>
+      <% end %>
       <%= link_to('Add a List', new_diver_list_path(@diver), remote: true, class: 'btn btn-primary', id: 'add-list-button') %>
     </div>
   </div>
 </div>
+
+<% unless @diver.deactivated_at.present? %>
+  <div class="modal fade" id="deactivation-modal" role="dialog" aria-labelledby="practices-modal-label">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Deactivate <%= @diver.name %></h4>
+        </div>
+        <!-- TODO: add validation to prevent submitting both -->
+        <%= form_tag(deactivate_diver_path(@diver), class: 'form-horizontal') do %>
+          <div class="modal-body">
+            <div class="form-group">
+              <label class="col-sm-2 control-label" for="deactivated_at">Date</label>
+              <div class="col-sm-10">
+                <%= date_field_tag :deactivated_at, Date.today, { class: 'form-control' } %>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label" for="deactivation_reason">Reason</label>
+              <div class="col-sm-10">
+                <%= text_field_tag :deactivation_reason, 'Why is this diver being deactivated?', class: 'form-control' %>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <%= submit_tag "Deactivate", class: 'btn btn-danger', data: { disable_with: 'Loading...' } %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+<% end %>
 
 <div id='lists'>
   <%= render @diver.lists %>

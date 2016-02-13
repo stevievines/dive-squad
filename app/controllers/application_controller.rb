@@ -18,7 +18,11 @@ class ApplicationController < ActionController::Base
   end
 
   def all_divers
-    @divers = @current_coach.divers
+    if params[:team_id].present?
+      @divers = @current_coach.teams.find(params[:team_id]).divers
+    else
+      @divers = @current_coach.divers
+    end
   end
 
 end

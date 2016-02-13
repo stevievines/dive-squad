@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160203025044) do
+ActiveRecord::Schema.define(version: 20160213173424) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -48,14 +48,16 @@ ActiveRecord::Schema.define(version: 20160203025044) do
   add_index "diver_practices", ["practice_id"], name: "index_diver_practices_on_practice_id", using: :btree
 
   create_table "divers", force: :cascade do |t|
-    t.integer  "team_id",    null: false
-    t.string   "name",       null: false
+    t.integer  "team_id",             null: false
+    t.string   "name",                null: false
     t.date     "birthday"
     t.string   "email"
     t.string   "phone"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
     t.datetime "join_date"
+    t.datetime "deactivated_at"
+    t.string   "deactivation_reason"
   end
 
   add_index "divers", ["team_id"], name: "index_divers_on_team_id", using: :btree

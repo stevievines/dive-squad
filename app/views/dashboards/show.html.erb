@@ -1,89 +1,49 @@
 <div class="row">
   <div class="col-xs-12">
-    <h1 class="page-header">Your Squad</h1>
+    <h1 class="page-header">Your Teams</h1>
   </div>
 </div>
 
+<% if @teams.any? %>
 <ul class="nav nav-tabs">
-  <li role="presentation" class="active"><a data-toggle="tab" href="#teams">Teams</a></li>
-  <li role="presentation"><a data-toggle="tab" href="#divers">Divers</a></li>
+  <% @teams.each_with_index do |team, index| %>
+    <% tab_class = index == 0 ? 'active' : '' %>
+    <li role="presentation" class=<%= tab_class %>><a data-toggle="tab" href="#team-<%= team.id %>"><%= team.name %></a></li>
+  <% end %>
+  <li role="presentation">
+    <%= link_to new_team_path, remote: true do %>
+      <i class="fa fa-plus"></i> Add Team</a>
+    <% end %>
+  </li>
 </ul>
+<% else %>
+  <%= link_to new_team_path, remote: true, class: 'btn btn-primary' do %>
+    <i class="fa fa-plus"></i> Add Team</a>
+<% end %>
+  <div class="row">
+    <div class="col-xs-8 col-xs-offset-2" id="team-form" style="display:none;"></div>
+  </div>
+<% end %>
 
 <div class="tab-content">
-  <div id="teams" class="tab-pane fade in active">
-    <div class="row">
-      <div class="col-xs-12">
-        <div class="panel panel-primary dashboard-panel">
-          <div class="panel-heading">
-            <div class="row">
-              <div class="col-xs-3">
-                <i class="fa fa-users fa-5x"></i>
-              </div>
-              <div class="col-xs-9 text-right">
-                <div class="huge" id="teams-count"><%= @teams.count %></div>
-                <div>Team(s)</div>
-              </div>
-            </div>
-          </div>
-          <a href="#">
-            <div class="panel-footer">
-              <span class="pull-left">View Details</span>
-              <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-              <div class="clearfix"></div>
-            </div>
-          </a>
-        </div>
-      </div>
+  <% @teams.each_with_index do |team, index| %>
+    <% tab_class = index == 0 ? 'in active' : '' %>
+    <div id="team-<%= team.id %>" class="tab-pane fade <%= tab_class %>">
+      <%= render partial: 'team_profile', locals: { team: team } %>
+      <hr>
+      <% active_divers = team.divers.active
+        .includes(:dives)
+        .joins(:diver_practices)
+        .select("divers.*, sum(case when diver_practices.was_present then 1 else 0 end) as attended_practices_count")
+        .group("divers.id").order(:name)
+      %>
+      <% inactive_divers = team.divers.inactive
+        .includes(:dives)
+        .joins(:diver_practices)
+        .select("divers.*, sum(case when diver_practices.was_present then 1 else 0 end) as attended_practices_count")
+        .group("divers.id").order(:name)
+      %>
+      <%= render partial: 'diver_cards', locals: { active_divers: active_divers, inactive_divers: inactive_divers } %>
     </div>
-    <div class="row">
-      <div class="col-xs-12">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <i class="fa fa-users fa-fw"></i> Teams
-          </div>
-          <div class="panel-body">
-            <%= render 'shared/teams_table' %>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div id="divers" class="tab-pane fade">
-    <div class="row">
-      <div class="col-xs-12">
-        <div class="panel panel-green dashboard-panel">
-          <div class="panel-heading">
-            <div class="row">
-              <div class="col-xs-3">
-                <i class="fa fa-anchor fa-5x"></i>
-              </div>
-              <div class="col-xs-9 text-right">
-                <div class="huge" id="divers-count"><%= @divers.count %></div>
-                <div>Diver(s)</div>
-              </div>
-            </div>
-          </div>
-          <a href=<%= divers_path %>>
-            <div class="panel-footer">
-              <span class="pull-left">View Details</span>
-              <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-              <div class="clearfix"></div>
-            </div>
-          </a>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-xs-12">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <i class="fa fa-anchor fa-fw"></i> Divers
-          </div>
-          <div class="panel-body">
-            <%= render 'shared/divers_table' %>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  <% end %>
 </div>

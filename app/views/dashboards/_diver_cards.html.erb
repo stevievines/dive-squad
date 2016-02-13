@@ -1,0 +1,39 @@
+<div class="row">
+  <div class="col-xs-12">
+    <ul class="nav nav-tabs" style="margin-bottom: 10px;">
+      <li role="presentation" class="active"><a data-toggle="tab" href="#active-divers">Active Divers</a></li>
+      <li role="presentation"><a data-toggle="tab" data-target="#inactive-divers">Inactive Divers</a></li>
+    </ul>
+  </div>
+</div>
+
+<div class="tab-content">
+
+  <div id="active-divers" class="tab-pane fade in active">
+    <div class="row">
+      <% if active_divers.any? %>
+        <% active_divers.each do |diver| %>
+          <%= render partial: 'diver_card', locals: { diver: diver } %>
+        <% end %>
+      <% else %>
+        <div class="col-md-3">
+          <p class="text-muted">This team has no active divers...</p>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <div id="inactive-divers" class="tab-pane fade">
+    <div class="row">
+      <% if inactive_divers.any? %>
+        <% inactive_divers.each do |diver| %>
+          <%= render partial: 'diver_card', locals: { diver: diver } %>
+        <% end %>
+      <% else %>
+        <div class="col-md-3">
+          <p class="text-muted">This team has no inactive divers...</p>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

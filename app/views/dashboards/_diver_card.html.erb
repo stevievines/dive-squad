@@ -1,0 +1,27 @@
+<div class="col-md-3">
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <div class="row">
+        <div class="col-xs-12">
+          <%= link_to(diver.name, diver_path(diver)) %>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <%= diver.birthday.try(:strftime, "%m/%d/%Y") %>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <%= pluralize(diver.attended_practices_count, 'Practices') %>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <%= pluralize(diver.dives.size, 'Dive') %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
