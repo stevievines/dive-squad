@@ -8,4 +8,8 @@ class Diver < ActiveRecord::Base
 
   scope :active, -> { where(deactivated_at: nil) }
   scope :inactive, -> { where.not(deactivated_at: nil) }
+
+  def deactivated?
+    deactivated_at.present?
+  end
 end

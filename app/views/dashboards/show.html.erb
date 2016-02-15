@@ -31,19 +31,13 @@
     <div id="team-<%= team.id %>" class="tab-pane fade <%= tab_class %>">
       <%= render partial: 'team_profile', locals: { team: team } %>
       <hr>
-      <% active_divers = team.divers.active
-        .includes(:dives)
+      <% divers = team.divers
         .joins(:diver_practices)
         .select("divers.*, sum(case when diver_practices.was_present then 1 else 0 end) as attended_practices_count")
-        .group("divers.id").order(:name)
+        .select("divers.*, sum(case when diver_practices.was_present then 0 else 1 end) as missed_practices_count")
+        .group("divers.id").order(deactivated_at: :desc, name: :asc)
       %>
-      <% inactive_divers = team.divers.inactive
-        .includes(:dives)
-        .joins(:diver_practices)
-        .select("divers.*, sum(case when diver_practices.was_present then 1 else 0 end) as attended_practices_count")
-        .group("divers.id").order(:name)
-      %>
-      <%= render partial: 'diver_cards', locals: { active_divers: active_divers, inactive_divers: inactive_divers } %>
+      <%= render partial: 'diver_cards', locals: { divers: divers } %>
     </div>
   <% end %>
 </div>

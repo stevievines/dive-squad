@@ -1,27 +1,22 @@
-<div class="col-md-3">
-  <div class="panel panel-default">
+<div class="col-md-4">
+  <% panel_class = diver.deactivated? ? 'panel-danger' : 'panel-info' %>
+  <div class="panel <%= panel_class %>">
+    <div class="panel-heading">
+      <h3 class="panel-title">
+        <%= link_to(diver_path(diver)) do %>
+          <%= diver.name %> <%= "<small>(Deactivated)</small>".html_safe if diver.deactivated? %>
+        <% end %>
+      </h3>
+    </div>
     <div class="panel-body">
-      <div class="row">
-        <div class="col-xs-12">
-          <%= link_to(diver.name, diver_path(diver)) %>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-xs-12">
-          <%= diver.birthday.try(:strftime, "%m/%d/%Y") %>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-xs-12">
-          <%= pluralize(diver.attended_practices_count, 'Practices') %>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-xs-12">
-          <%= pluralize(diver.dives.size, 'Dive') %>
-        </div>
-      </div>
+      <dl class="dl-horizontal">
+        <dt>Born</dt>
+        <dd><%= diver.birthday.try(:strftime, "%m/%d/%Y") || 'Unknown' %></dd>
+        <dt>Attended</dt>
+        <dd><%= pluralize(diver.attended_practices_count, 'Practices') %></dd>
+        <dt>Missed</dt>
+        <dd><%= pluralize(diver.missed_practices_count, 'Practices') %></dd>
+      </dl>
     </div>
   </div>
 </div>
-
