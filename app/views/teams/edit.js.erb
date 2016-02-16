@@ -1,2 +1,2 @@
-$('#team-form').html("<%= escape_javascript(render 'form') %>");
-$('#team-form').slideDown(350);
+$('#team-form-<%= @team.id %>').html("<%= escape_javascript(render 'form') %>");
+$('#team-form-<%= @team.id %>').slideDown(350);

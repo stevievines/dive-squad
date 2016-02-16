@@ -45,6 +45,6 @@ class DiversController < ApplicationController
   end
 
   def remove_diver_practices_after_deactivation!
-    @diver.diver_practices.joins(:practice).where("practices.date" => @diver.deactivated_at..Date.today).destroy_all
+    @diver.diver_practices.joins(:practice).where("practices.date > (?)", @diver.deactivated_at).destroy_all
   end
 end
