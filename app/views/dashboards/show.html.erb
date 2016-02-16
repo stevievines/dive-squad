@@ -45,7 +45,7 @@
       <%= render partial: 'team_profile', locals: { team: team } %>
       <hr>
       <% divers = team.divers
-        .joins(:diver_practices)
+        .joins(:practices).where("practices.date <= (?)", Date.today)
         .select("divers.*, sum(case when diver_practices.was_present then 1 else 0 end) as attended_practices_count")
         .select("divers.*, sum(case when diver_practices.was_present then 0 else 1 end) as missed_practices_count")
         .group("divers.id").order(deactivated_at: :desc, name: :asc)
