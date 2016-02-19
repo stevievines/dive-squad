@@ -11,6 +11,7 @@ class DiversController < ApplicationController
 
   def create
     @diver = Diver.create(diver_params)
+    redirect_to :back, flash: { success: "Diver Created!" }
   end
 
   def show

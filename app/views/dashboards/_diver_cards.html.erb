@@ -1,5 +1,5 @@
 <div class="row">
-  <% if divers.any? %>
+  <% if divers.present? %>
     <% divers.each do |diver| %>
       <%= render partial: 'diver_card', locals: { diver: diver } %>
     <% end %>

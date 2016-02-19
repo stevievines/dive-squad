@@ -44,12 +44,32 @@
     <div id="team-<%= team.id %>" class="tab-pane fade <%= tab_class %>">
       <%= render partial: 'team_profile', locals: { team: team } %>
       <hr>
-      <% divers = team.divers
-        .joins(:practices).where("practices.date <= (?)", Date.today)
-        .select("divers.*, sum(case when diver_practices.was_present then 1 else 0 end) as attended_practices_count")
-        .select("divers.*, sum(case when diver_practices.was_present then 0 else 1 end) as missed_practices_count")
-        .group("divers.id").order(deactivated_at: :desc, name: :asc)
-      %>
+    <% divers = team.divers
+      .joins("LEFT JOIN diver_practices ON diver_practices.diver_id = divers.id LEFT JOIN practices ON practices.id = diver_practices.practice_id")
+      .where("practices.id IS NULL OR practices.date <= (?)", Date.today)
+      .select("divers.*, sum(case when diver_practices.was_present then 1 else 0 end) as attended_practices_count")
+      .select("divers.*, sum(case when diver_practices.was_present then 0 else 1 end) as missed_practices_count")
+      .group("divers.id").distinct("divers.id")
+      .order(deactivated_at: :desc, name: :asc)
+    %>
+    <div class="text-right">
+      <a class="btn btn-primary" style="margin-bottom: 10px;" data-toggle="modal" data-target="#new-diver-modal">
+        <i class="fa fa-plus"></i> Add Diver
+      </a>
+    </div>
+    <div class="modal fade" id="new-diver-modal" role="dialog" aria-labelledby="new-diver-modal-label">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="new-team-modal-label">Add a Diver!</h4>
+          </div>
+          <div class="modal-body">
+            <%= render '/divers/form' %>
+          </div>
+        </div>
+      </div>
+    </div>
       <%= render partial: 'diver_cards', locals: { divers: divers } %>
     </div>
   <% end %>
