@@ -53,11 +53,11 @@
       .order(deactivated_at: :desc, name: :asc)
     %>
     <div class="text-right">
-      <a class="btn btn-primary" style="margin-bottom: 10px;" data-toggle="modal" data-target="#new-diver-modal">
+      <a class="btn btn-primary" style="margin-bottom: 10px;" data-toggle="modal" data-target="#new-diver-modal-<%= team.id %>">
         <i class="fa fa-plus"></i> Add Diver
       </a>
     </div>
-    <div class="modal fade" id="new-diver-modal" role="dialog" aria-labelledby="new-diver-modal-label">
+    <div class="modal fade" id="new-diver-modal-<%= team.id %>" role="dialog" aria-labelledby="new-diver-modal-label">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -70,7 +70,7 @@
         </div>
       </div>
     </div>
-      <%= render partial: 'diver_cards', locals: { divers: divers } %>
+    <%= render partial: 'diver_cards', locals: { divers: divers } %>
     </div>
   <% end %>
 </div>

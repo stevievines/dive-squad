@@ -2,7 +2,7 @@
   <div class="form-group">
     <div class="field">
       <%= f.label :team_id %><br />
-      <%= f.select :team_id, options_from_collection_for_select(@teams, "id", "name"), { multiple: true, class: 'form-control' } %>
+      <%= f.select :team_id, options_from_collection_for_select(@teams, "id", "name"), {}, { class: 'form-control' } %>
     </div>
   </div>
 
