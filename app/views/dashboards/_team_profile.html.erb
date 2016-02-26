@@ -82,8 +82,8 @@
           </div>
           <div class="col-xs-9 text-right">
             <% practice_count = team.practices.where("date <= ?", Date.today).count %>
-            <div class="huge" id="practices-count"><%= practice_count %></div>
-            <div><%= 'Practice'.pluralize(practice_count) %></div>
+            <div class="huge" id="practices-count"><%= "#{team.attendance_percentage.round(2) * 100}%" %></div>
+            <div><%= team.practice_count %> <%= 'Practice'.pluralize(team.practice_count) %></div>
           </div>
         </div>
       </div>
