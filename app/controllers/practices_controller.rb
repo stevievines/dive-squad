@@ -54,7 +54,7 @@ class PracticesController < ApplicationController
   end
 
   def find_or_create_diver_practices(practice)
-    @team.divers.includes(:diver_practices).each do |diver|
+    @team.divers.active.includes(:diver_practices).each do |diver|
       diver.diver_practices.find_or_create_by(practice: practice) unless diver.join_date > practice.date
     end
   end
