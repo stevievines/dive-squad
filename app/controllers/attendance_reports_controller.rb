@@ -35,7 +35,7 @@ class AttendanceReportsController < ApplicationController
   end
 
   def report_divers
-    case params[:date_range]
+    divers = case params[:date_range]
     when 'all_time'
       @team.divers.joins(:practices).where("practices.date <= (?)", Date.today)
     when 'this_week'
@@ -45,6 +45,9 @@ class AttendanceReportsController < ApplicationController
     else
       @team.divers.joins(:practices).where("practices.date <= (?)", Date.today)
     end
+
+    divers = params[:include_makeups].blank? ? divers.where("practices.is_makeup = ?", false) : divers
+    divers = params[:include_excused].blank? ? divers.where(diver_practices: { excused_absence: nil }) : divers
   end
 
   def build_attendance_by_day_data
@@ -74,7 +77,7 @@ class AttendanceReportsController < ApplicationController
   end
 
   def report_practices
-    case params[:date_range]
+    practices = case params[:date_range]
     when 'all_time'
       @team.practices.where("practices.date <= (?)", Date.today)
     when 'this_week'
@@ -84,6 +87,8 @@ class AttendanceReportsController < ApplicationController
     else
       @team.practices.where("practices.date <= (?)", Date.today)
     end
+
+    params[:include_makeups].blank? ? practices.where(is_makeup: false) : practices
   end
 
   def average_attendance(attendances)

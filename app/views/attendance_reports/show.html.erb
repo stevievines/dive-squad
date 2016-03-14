@@ -6,6 +6,14 @@
   </div>
   <div class="row">
     <div class="col-xs-12 text-right">
+
+     <%= form_tag team_attendance_report_path(@team), method: :get do |f| %>
+      <%= check_box_tag :include_excused, true, params[:include_excused], onchange: 'this.form.submit();' %>
+      <%= label_tag :include_excused, "Include Excused Absences" %>
+      <%= check_box_tag :include_makeups, true, params[:include_makeups], onchange: 'this.form.submit();' %>
+      <%= label_tag :include_makeups, "Include Makeup Practices" %>
+     <% end %>
+
       <div class="btn-group">
         <button type="button" class="btn btn-primary dropdown-toggle" style='margin-bottom: 10px;' data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <%= params[:date_range].present? ? params[:date_range].titleize : 'All Time' %> <span class="caret"></span>
