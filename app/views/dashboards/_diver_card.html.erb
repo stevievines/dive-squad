@@ -13,10 +13,22 @@
         <dt>Born</dt>
         <dd><%= diver.birthday.try(:strftime, "%m/%d/%Y") || 'Unknown' %></dd>
         <dt>Attended</dt>
-        <dd><%= pluralize(diver.attended_practices_count, 'Practices') %></dd>
+        <dd><%= pluralize(diver.attended_practices_count, 'Practice') %></dd>
         <dt>Missed</dt>
-        <dd><%= pluralize(diver.missed_practices_count, 'Practices') %></dd>
+        <dd><%= pluralize(diver.missed_practices_count, 'Practice') %></dd>
+        <dt>Goals</dt>
+        <dd><%= pluralize(diver.goals_count, 'Goal') %></dd>
       </dl>
+
+      <%= link_to '#', remote: true, class: 'pull-right', data: {
+        toggle: "modal",
+        target: "#new-goal-modal",
+        diver_id: diver.id,
+        diver_name: diver.name
+      } do %>
+      <i class="fa fa-plus"></i> New Goal
+    <% end %>
+
     </div>
   </div>
 </div>

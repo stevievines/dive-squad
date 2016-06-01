@@ -1,0 +1,22 @@
+<%= form_for @goal || Goal.new do |f| %>
+  <div class="form-group">
+    <div class="field">
+      <%= f.label :dive_id %><br />
+      <%= f.select :dive_id, options_from_collection_for_select(Dive.all, :id, :display_description), { include_blank: true }, { class: 'form-control js-dive-select' } %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class="field">
+      <%= f.label :note %><br />
+      <%= f.text_field :note, { autofocus: false, class: 'form-control' } %>
+    </div>
+  </div>
+
+  <%= hidden_field_tag "diver_id", nil %>
+
+  <div class="actions">
+    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    <%= f.submit "Save", class: 'btn btn-primary' %>
+  </div>
+<% end %>

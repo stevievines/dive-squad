@@ -40,4 +40,6 @@ Rails.application.routes.draw do
       resources :list_dives, only: [:new, :create]
     end
   end
+  # NOTE: should be nested resource, not sure how to do the form_for from dashboard that way
+  resources :goals, only: [:create, :edit]
 end

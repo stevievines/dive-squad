@@ -1,11 +1,11 @@
 <div class="row">
   <div class="col-xs-12 text-right">
-    <%= link_to('Record Attendance', team_attendance_path(team), class: 'btn btn-primary', style: 'margin-top: 10px;') %>
+    <%= link_to('Record Attendance', team_attendance_path(team), class: 'btn btn-primary') %>
     <div class="btn-group">
-      <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-top: 10px; margin-right: 15px;">
+      <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <i class="fa fa-cogs"></i><span class="caret"></span>
       </button>
-      <ul class="dropdown-menu dropdown-menu-right" style="margin-right: 15px;">
+      <ul class="dropdown-menu dropdown-menu-right">
         <li>
           <%= link_to edit_team_path(team), remote: true do %>
             Edit Team Name
@@ -82,7 +82,7 @@
           </div>
           <div class="col-xs-9 text-right">
             <% practice_count = team.practices.where("date <= ?", Date.today).count %>
-            <div class="huge" id="practices-count"><%= "#{team.attendance_percentage.round(2) * 100}%" %></div>
+            <div class="huge" id="practices-count"><%= "#{number_to_percentage(team.attendance_percentage * 100)}" %></div>
             <div><%= team.practice_count %> <%= 'Practice'.pluralize(team.practice_count) %></div>
           </div>
         </div>
