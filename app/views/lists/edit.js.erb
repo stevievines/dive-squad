@@ -1,3 +1,7 @@
 $('#list-form').html("<%= escape_javascript(render 'edit_form') %>");
+$('.js-dive-select').select2({
+  placeholder: "Choose a dive",
+  allowClear: true,
+  width: '100%'
+});
 $('#list-form').slideDown(350);
-
