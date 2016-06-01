@@ -41,5 +41,5 @@ Rails.application.routes.draw do
     end
   end
   # NOTE: should be nested resource, not sure how to do the form_for from dashboard that way
-  resources :goals, only: [:create, :edit]
+  resources :goals, only: [:create, :edit, :index]
 end

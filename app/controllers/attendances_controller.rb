@@ -12,7 +12,7 @@ class AttendancesController < ApplicationController
   end
 
   def set_divers
-    @divers = @team.divers.includes(:diver_practices)
+    @divers = @team.divers.active.includes(:diver_practices)
   end
 
   def set_practices
