@@ -5,7 +5,8 @@ class Diver < ActiveRecord::Base
   has_many :dives, through: :lists
   has_many :diver_practices
   has_many :practices, through: :diver_practices
-  has_many :goals, dependent: :destroy
+  has_many :diver_goals, dependent: :destroy
+  has_many :goals, through: :diver_goals
 
   scope :active, -> { where(deactivated_at: nil) }
   scope :inactive, -> { where.not(deactivated_at: nil) }

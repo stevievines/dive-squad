@@ -1,4 +1,6 @@
 <%= form_for @goal || Goal.new do |f| %>
+  <h4 class="text-center">Add One Goal</h4>
+
   <div class="form-group">
     <div class="field">
       <%= f.label :dive_id %><br />
@@ -6,10 +8,14 @@
     </div>
   </div>
 
+  <hr>
+
+  <h4 class="text-center">Add Multiple Goals</h4>
+
   <div class="form-group">
     <div class="field">
-      <%= f.label :note %><br />
-      <%= f.text_field :note, { autofocus: false, class: 'form-control' } %>
+      <%= label_tag :dives %><br />
+      <%= select_tag :dives, options_from_collection_for_select(Dive.all, :id, :display_description), include_blank: true, multiple: true, class: 'form-control js-dive-select' %>
     </div>
   </div>
 

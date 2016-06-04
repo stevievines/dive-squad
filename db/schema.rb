@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160530214610) do
+ActiveRecord::Schema.define(version: 20160604133426) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -32,6 +32,15 @@ ActiveRecord::Schema.define(version: 20160530214610) do
 
   add_index "coaches_teams", ["coach_id"], name: "index_coaches_teams_on_coach_id", using: :btree
   add_index "coaches_teams", ["team_id"], name: "index_coaches_teams_on_team_id", using: :btree
+
+  create_table "diver_goals", force: :cascade do |t|
+    t.integer  "diver_id",   null: false
+    t.integer  "goal_id",    null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "diver_goals", ["diver_id", "goal_id"], name: "index_diver_goals_on_diver_id_and_goal_id", unique: true, using: :btree
 
   create_table "diver_practices", force: :cascade do |t|
     t.boolean  "was_present",     default: false
@@ -71,15 +80,12 @@ ActiveRecord::Schema.define(version: 20160530214610) do
   end
 
   create_table "goals", force: :cascade do |t|
-    t.text     "note"
-    t.integer  "dive_id"
-    t.integer  "diver_id"
+    t.integer  "dive_id",    null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  add_index "goals", ["dive_id"], name: "index_goals_on_dive_id", using: :btree
-  add_index "goals", ["diver_id"], name: "index_goals_on_diver_id", using: :btree
+  add_index "goals", ["dive_id"], name: "index_goals_on_dive_id", unique: true, using: :btree
 
   create_table "list_dives", force: :cascade do |t|
     t.integer "list_id", null: false

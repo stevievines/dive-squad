@@ -61,11 +61,11 @@
         <hr>
       <% divers = team.divers
         .joins("LEFT JOIN diver_practices ON diver_practices.diver_id = divers.id LEFT JOIN practices ON practices.id = diver_practices.practice_id")
-        .joins("LEFT JOIN goals ON goals.diver_id = divers.id")
+        .joins("LEFT JOIN diver_goals ON diver_goals.diver_id = divers.id")
         .where("practices.id IS NULL OR practices.date <= (?)", Date.today)
         .select("divers.*, sum(case when diver_practices.was_present then 1 else 0 end) as attended_practices_count")
         .select("divers.*, sum(case when diver_practices.was_present then 0 else 1 end) as missed_practices_count")
-        .select("divers.*, count(distinct(goals.id)) as goals_count")
+        .select("divers.*, count(distinct(diver_goals.id)) as goals_count")
         .group("divers.id").distinct("divers.id")
         .order(deactivated_at: :desc, name: :asc)
       %>
