@@ -3,7 +3,7 @@ class GoalsController < ApplicationController
   before_action :set_divers, only: :index
 
   def create
-    params[:dives].present? ? add_multiple_goals : add_one_goal
+    add_goals
     flash[:success] = "Goal Added!"
     redirect_to dashboard_path
   rescue ActiveRecord::RecordInvalid => ex
@@ -17,12 +17,7 @@ class GoalsController < ApplicationController
 
   private
 
-  def add_one_goal
-    goal = Goal.find_or_create_by(goal_params)
-    @diver.goals << goal
-  end
-
-  def add_multiple_goals
+  def add_goals
     dives = Dive.find(params[:dives])
     dives.each do |dive|
       goal = Goal.find_or_create_by(dive_id: dive.id)
