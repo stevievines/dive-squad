@@ -16,8 +16,6 @@
         <dd><%= pluralize(diver.attended_practices_count, 'Practice') %></dd>
         <dt>Missed</dt>
         <dd><%= pluralize(diver.missed_practices_count, 'Practice') %></dd>
-        <dt>Goals</dt>
-        <dd><%= pluralize(diver.goals_count, 'Goal') %></dd>
       </dl>
 
       <%= link_to '#', remote: true, class: 'pull-right', data: {
