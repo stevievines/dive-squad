@@ -1,5 +1,4 @@
 class ListsController < ApplicationController
-  before_action :authorize
   before_action :set_diver
   before_action :set_dives, only: [:new, :edit]
   before_action :set_list, only: [:edit, :update, :destroy]

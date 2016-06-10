@@ -1,6 +1,5 @@
 class AttendanceReportsController < ApplicationController
-  before_action :authorize,
-                :set_team,
+  before_action :set_team,
                 :set_line_chart_data,
                 :set_attendance_by_day_data,
                 :set_diver_averages

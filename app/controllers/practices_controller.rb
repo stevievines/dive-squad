@@ -1,5 +1,5 @@
 class PracticesController < ApplicationController
-  before_action :authorize, :set_team
+  before_action :set_team
   before_action :set_practice, only: :destroy
 
   def add_practices

@@ -1,5 +1,5 @@
 class AttendancesController < ApplicationController
-  before_action :authorize, :set_team, :set_divers
+  before_action :set_team, :set_divers
 
   def show
     @practices = set_practices

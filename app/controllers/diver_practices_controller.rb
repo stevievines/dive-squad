@@ -1,5 +1,5 @@
 class DiverPracticesController < ApplicationController
-  before_action :authorize, :set_diver, :set_diver_practice
+  before_action :set_diver, :set_diver_practice
 
   def toggle_attendance
     @diver_practice.toggle!(:was_present)

@@ -3,6 +3,8 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
+  before_action :authorize
+
   def current_coach
     @current_coach ||= Coach.find(session[:coach_id]) if session[:coach_id]
   end

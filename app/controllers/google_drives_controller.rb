@@ -1,5 +1,4 @@
 class GoogleDrivesController < ApplicationController
-  before_action :authorize
 
   def create
     Rails.logger.info("Creating New Google Drive Connection")

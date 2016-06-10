@@ -1,5 +1,4 @@
 class ListDivesController < ApplicationController
-  before_action :authorize
   before_action :set_list
 
   def new
