@@ -64,4 +64,10 @@ group :development, :test do
 
   # dot-env for sensitive environment variables
   gem 'dotenv-rails'
+
+  gem 'factory_girl_rails'
+end
+
+group :test do
+  gem 'simplecov'
 end

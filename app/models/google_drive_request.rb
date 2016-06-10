@@ -9,9 +9,7 @@ class GoogleDriveRequest
   end
 
   def headers
-    {
-      'Authorization' => "OAuth #{coach.google_drive_data['token']}"
-    }
+    { 'Authorization' => "OAuth #{coach.google_drive_data['token']}" }
   end
 
   def get_files

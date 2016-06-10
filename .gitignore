@@ -27,3 +27,5 @@
 
 #dot-env environment variables
 .env
+
+coverage

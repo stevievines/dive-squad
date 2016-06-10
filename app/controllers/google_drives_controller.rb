@@ -10,6 +10,7 @@ class GoogleDrivesController < ApplicationController
   private
 
   def save_google_drive_data!
+    binding.pry
     if request.env['omniauth.auth'].present?
       @current_coach.update(google_drive_data: request.env['omniauth.auth']["credentials"])
     end

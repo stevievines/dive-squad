@@ -12,12 +12,8 @@ class Team < ActiveRecord::Base
       self.divers.includes(:diver_practices).each do |diver|
         diver_attendance = [diver.name]
         practices.each do |practice|
-          dpra = diver.diver_practices.find {|dp| dp.practice == practice }
-          status = if dpra.present?
-                     dpra.was_present? ? 'Present' : nil
-                   else
-                     nil
-                   end
+          diver_practice = diver.diver_practices.find {|dp| dp.practice == practice }
+          status = diver_practice.try(:was_present?) ? 'Present' : nil
           diver_attendance << status
         end
         csv << diver_attendance
