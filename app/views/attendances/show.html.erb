@@ -1,45 +1,44 @@
 <div class="container-fluid">
-  <div class="row">
-    <div class="col-xs-12">
-      <h1 class="page-header"><%= @team.name %> Attendance</h1>
-    </div>
-  </div>
+  <h1 class="page-header"><%= @team.name %> Attendance</h1>
 
   <div class="row">
-    <div class="col-xs-12">
-      <div class="btn-group">
-        <button type="button" class="btn btn-primary dropdown-toggle" style='margin-bottom: 10px;' data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <%= params[:date_range].present? ? params[:date_range].titleize : 'Today' %> <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu">
-          <li>
-            <%= link_to('Today', team_attendance_path(@team, date_range: 'today')) %>
-          </li>
-          <li>
-            <%= link_to('This Week', team_attendance_path(@team, date_range: 'this_week')) %>
-          </li>
-          <li>
-            <%= link_to('This Month', team_attendance_path(@team, date_range: 'this_month')) %>
-          </li>
-        </ul>
+    <div class="col-xs-4">
+      <div class="form-inline">
+        <label>Practice Dates</label>
+        <div class="form-group">
+          <div id="reportrange" class="form-control" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%">
+            <i class="fa fa-calendar"></i>&nbsp;
+            <span></span> <b class="caret"></b>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 
-  <div class="row">
-    <!-- NOTE: This is to make it easier on iPhone, find better solution! -->
-    <% if @practices.any? %>
-      <% table_width = params[:date_range] == 'this_month' ? 'col-xs-12' : 'col-xs-5' %>
-      <div class="<%= table_width %>">
-        <%= render 'table' %>
-      </div>
-    <% else %>
-      <% date_range = params[:date_range].blank? ? 'Today' : params[:date_range].titleize %>
-      <div class='col-xs-6'>
-        <p class="text-muted">You have no practices for <%= date_range %>. Add practices using the button below!</p>
-      </div>
-    <% end %>
-  </div>
+  <script type="text/javascript">
+    $(function() {
+      function cb(start, end) {
+        var startDate = start.format('MM-DD-YYYY');
+        var endDate = end.format('MM-DD-YYYY');
+        $.post("<%= update_date_range_team_attendance_path(@team) %>", { start_date: startDate, end_date: endDate });
+        $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+      }
+      cb(moment(), moment());
+      $('#reportrange').daterangepicker({
+        opens: 'right',
+        ranges: {
+          'Today': [moment(), moment()],
+          'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+          'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+          'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+          'This Month': [moment().startOf('month'), moment().endOf('month')],
+          'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+        }
+      }, cb);
+    });
+  </script>
+
+  <div id='attendance-section'></div>
 
   <div class="row">
     <div class="col-xs-12">
@@ -106,7 +105,7 @@
         <h4 class="modal-title" id="minutes-late-modal-label">How many minutes late?</h4>
       </div>
       <div class="modal-body">
-        <%= form_tag diver_practices_set_minutes_late_path, class: 'form form-inline' do %>
+        <%= form_tag diver_practices_set_minutes_late_path, remote: true, class: 'form form-inline' do %>
           <%= number_field_tag :minutes_late, nil, { autofocus: true, class: 'form-control' } %>
           <%= hidden_field_tag "diver_id", nil %>
           <%= hidden_field_tag "id", nil %>
@@ -118,15 +117,15 @@
   </div>
 </div>
 
-<div class="modal fade" id="late-excuse-modal" tabindex="-1" role="dialog" aria-labelledby="late-excuse-modal-label">
+<div class="modal fade" id="excused-absence-modal" tabindex="-1" role="dialog" aria-labelledby="excused-absence-modal-label">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="late-excuse-modal-label">Excused Absence?</h4>
+        <h4 class="modal-title" id="excused-absence-modal-label">Excused Absence?</h4>
       </div>
       <div class="modal-body">
-        <%= form_tag diver_practices_set_excuse_path do %>
+        <%= form_tag diver_practices_set_excuse_path, remote: true do %>
             <div class="form-group">
               <div class="field">
                 <%= label_tag :excuse %>

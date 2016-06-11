@@ -23,7 +23,11 @@ Rails.application.routes.draw do
         post :export_practices
       end
     end
-    resource :attendance, only: :show
+    resource :attendance, only: :show do
+      collection do
+        post :update_date_range
+      end
+    end
     # TODO: move to reporting module?
     resource :attendance_report, only: :show
   end

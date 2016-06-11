@@ -1,3 +1,11 @@
-<div class="table-responsive" id="attendance-table">
-  <%= render 'diver_practices/attendance_table' %>
-</div>
+<% if @practices.present? %>
+  <% col_size = @practices.count > 3 ? 'col-xs-12' : 'col-xs-6' %>
+  <div class="row">
+    <div class="<%= col_size %>">
+    <div class="table-responsive" id="attendance-table">
+      <%= render 'diver_practices/attendance_table' %>
+    </div>
+  </div>
+<% else %>
+  <p class="text-muted">You have no practices for these dates. Add some using the button below!</p>
+<% end %>

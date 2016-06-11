@@ -1,8 +1,12 @@
 class AttendancesController < ApplicationController
-  before_action :set_team, :set_divers
+  before_action :authorize, :set_team, :set_divers
+  before_action :set_practices, only: :update_date_range
 
   def show
-    @practices = set_practices
+  end
+
+  def update_date_range
+    respond_to { |format| format.js }
   end
 
   private
@@ -16,16 +20,7 @@ class AttendancesController < ApplicationController
   end
 
   def set_practices
-    case params[:date_range]
-    when 'today'
-      @team.practices.where(date: Date.today).order(:date)
-    when 'this_week'
-      @team.practices.where(date: Date.today.beginning_of_week..Date.today.end_of_week).order(:date)
-    when 'this_month'
-      @team.practices.where(date: Date.today.beginning_of_month..Date.today.end_of_month).order(:date)
-    else
-      @team.practices.where(date: Date.today).order(:date)
-    end
+    @practices = @team.practices.where(date: params[:start_date]..params[:end_date]).order(:date)
   end
 
 end

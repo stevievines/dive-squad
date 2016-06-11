@@ -11,6 +11,9 @@ gem 'pg'
 gem 'bootstrap-sass'
 gem 'sass-rails', '~> 5.0'
 
+# https://github.com/jordanbrock/bootstrap-daterangepicker-rails
+gem 'bootstrap-daterangepicker-rails'
+
 # use chartkick for charting
 gem 'chartkick'
 
@@ -28,6 +31,9 @@ gem 'coffee-rails', '~> 4.1.0'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
+
+# Moment.js for time
+gem 'momentjs-rails'
 
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem 'turbolinks', '~> 2.3.0'

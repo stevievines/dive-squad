@@ -22,7 +22,7 @@ $(document).ready(function() {
     modal.find('#id').val(diverPracticeId);
   });
 
-  $('#late-excuse-modal').on('show.bs.modal', function (event) {
+  $('#excused-absence-modal').on('show.bs.modal', function (event) {
     var button = $(event.relatedTarget); // Button that triggered the modal
     // Extract info from data-* attributes
     var diver = button.data('diver-name');

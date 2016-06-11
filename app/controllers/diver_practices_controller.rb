@@ -7,7 +7,10 @@ class DiverPracticesController < ApplicationController
 
   def set_minutes_late
     @diver_practice.update(minutes_late: params[:minutes_late])
-    redirect_to :back, flash: { success: 'Diver lateness has been recorded!' }
+    respond_to do |format|
+      format.html { redirect_to :back, flash: { success: 'Diver lateness has been recorded!' } }
+      format.js
+    end
   end
 
   def set_excuse
@@ -15,7 +18,10 @@ class DiverPracticesController < ApplicationController
       excuse: params[:excuse],
       excused_absence: params[:excused_absence].present?
     )
-    redirect_to :back, flash: { success: 'Excuse saved!' }
+    respond_to do |format|
+      format.html { redirect_to :back, flash: { success: 'Excuse saved!' } }
+      format.js
+    end
   end
 
   private
