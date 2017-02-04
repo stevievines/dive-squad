@@ -13,142 +13,42 @@
       <%= label_tag :include_makeups, "Include Makeup Practices" %>
     <% end %>
 
-    <div class="btn-group">
-      <button type="button" class="btn btn-primary dropdown-toggle" style='margin-bottom: 10px;' data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        <%= params[:date_range].present? ? params[:date_range].titleize : 'All Time' %> <span class="caret"></span>
-      </button>
-
-      <ul class="dropdown-menu dropdown-menu-right">
-        <li>
-          <%= link_to('All Time', team_attendance_report_path(@team, date_range: 'all_time')) %>
-        </li>
-        <li>
-          <%= link_to('This Month', team_attendance_report_path(@team, date_range: 'this_month')) %>
-        </li>
-        <li>
-          <%= link_to('This Week', team_attendance_report_path(@team, date_range: 'this_week')) %>
-        </li>
-      </ul>
-    </div>
-  </div>
-</div>
-
-<div class="row">
-  <div class="col-md-6">
-    <div class="text-center">
-      <h5>Team Attendance</h5>
-    </div>
-    <%= column_chart(
-      @line_chart_data,
-      discrete: true,
-      library: {
-        chartArea: {
-          height: '70%',
-          width: '85%',
-          top: '10%'
-        },
-        animation: {
-          duration: 600,
-          easing: 'linear',
-          startup: true
-        }
-      },
-      ytitle: 'Attendance Percentage',
-      colors: ['#2577B5']) %>
-  </div>
-
-  <div class="col-md-6">
-    <div class="text-center">
-      <h5>Attendance by Day</h5>
-    </div>
-    <%= column_chart(
-      @attendance_by_day_data,
-      discrete: true,
-      library: {
-        chartArea: {
-          height: '70%',
-          width: '85%',
-          top: '10%'
-        },
-        animation: {
-          duration: 600,
-          easing: 'linear',
-          startup: true
-        }
-      },
-      ytitle: 'Average Attendance',
-      colors: ['#7CB47C']
-    ) %>
-  </div>
-</div>
-
-<div class="row">
-  <% @diver_averages.each do |diver, average| %>
-    <% if average > 70 %>
-      <% color_class = 'success' %>
-      <% icon = 'fa-thumbs-o-up' %>
-    <% elsif average < 50 %>
-      <% color_class = 'danger' %>
-      <% icon = 'fa-thumbs-o-down' %>
-    <% else %>
-      <% color_class = 'warning' %>
-      <% icon = 'fa-hand-rock-o' %>
-    <% end %>
-
-    <div class="col-lg-3 col-md-6">
-      <div class="flip">
-        <div class="card">
-          <div class="face front">
-            <div class="panel panel-<%= color_class %>">
-              <div class="panel-heading">
-                <div class="row">
-                  <div class="col-xs-3">
-                    <i class="fa <%= icon %> fa-5x"></i>
-                  </div>
-                  <div class="col-xs-9 text-right">
-                    <div class="huge"><%= average %>%</div>
-                    <div class="medium"><%= diver.name %></div>
-                  </div>
-                </div>
-              </div>
-              <a href="javascript:void(0)" class="flipControl">
-                <div class="panel-footer">
-                  <span class="pull-left">View Details</span>
-                  <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                  <div class="clearfix"></div>
-                </div>
-              </a>
-            </div>
-          </div>
-          <div class="face back">
-            <div class="panel panel-<%= color_class %>">
-              <div class="panel-heading">
-                <div class="row">
-                  <div class="col-xs-4 text-center">
-                    <div class="huge"><%= diver.practices_made_count %></div>
-                    <div class="small">Attended</div>
-                  </div>
-                  <div class="col-xs-4 text-center">
-                    <div class="huge"><%= diver.absence_count %></div>
-                    <div class="small">Missed</div>
-                  </div>
-                  <div class="col-xs-4 text-center">
-                    <div class="huge"><%= diver.excused_absence_count %></div>
-                    <div class="small">Excused</div>
-                  </div>
-                </div>
-              </div>
-              <a href="javascript:void(0)" class="flipControl">
-                <div class="panel-footer">
-                  <span class="pull-left"><%= diver.name %></span>
-                  <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                  <div class="clearfix"></div>
-                </div>
-              </a>
-            </div>
+    <div class="col-xs-4">
+      <div class="form-inline">
+        <label>Practice Dates</label>
+        <div class="form-group">
+          <div id="reportrange" class="form-control" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%">
+            <i class="fa fa-calendar"></i>&nbsp;
+            <span></span> <b class="caret"></b>
           </div>
         </div>
       </div>
     </div>
-  <% end %>
+  </div>
 </div>
+
+<div id='attendance-report-section'></div>
+
+<script type="text/javascript">
+  $(function() {
+    function cb(start, end) {
+      var startDate = start.format('MM-DD-YYYY');
+      var endDate = end.format('MM-DD-YYYY');
+      $.post("<%= update_date_range_team_attendance_report_path(@team) %>", { start_date: startDate, end_date: endDate });
+      $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+    }
+    cb(moment(), moment());
+    $('#reportrange').daterangepicker({
+      opens: 'right',
+      ranges: {
+        'Today': [moment(), moment()],
+        'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+        'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+          'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+          'This Month': [moment().startOf('month'), moment().endOf('month')],
+            'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+      }
+    }, cb);
+  });
+</script>
+

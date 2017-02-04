@@ -4,6 +4,10 @@ class AttendanceReportsController < ApplicationController
                 :set_attendance_by_day_data,
                 :set_diver_averages
 
+  def update_date_range
+    respond_to { |format| format.js }
+  end
+
   private
 
   def set_team
@@ -34,19 +38,13 @@ class AttendanceReportsController < ApplicationController
   end
 
   def report_divers
-    divers = case params[:date_range]
-    when 'all_time'
-      @team.divers.joins(:practices).where("practices.date <= (?)", Date.today)
-    when 'this_week'
-      @team.divers.joins(:practices).where("practices.date >= (?) AND practices.date <= (?)", Date.today.beginning_of_week, Date.today)
-    when 'this_month'
-      @team.divers.joins(:practices).where("practices.date >= (?) AND practices.date <= (?)", Date.today.beginning_of_month, Date.today)
+    if params[:start_date] && params[:end_date]
+      divers = @team.divers.joins(:practices).where(practices: { date: params[:start_date]..params[:end_date] })
+      divers = params[:include_makeups].blank? ? divers.where(practices: { is_makeup: false }) : divers
+      divers = params[:include_excused].blank? ? divers.where(diver_practices: { excused_absence: nil }) : divers
     else
-      @team.divers.joins(:practices).where("practices.date <= (?)", Date.today)
+      Diver.none
     end
-
-    divers = params[:include_makeups].blank? ? divers.where("practices.is_makeup = ?", false) : divers
-    divers = params[:include_excused].blank? ? divers.where(diver_practices: { excused_absence: nil }) : divers
   end
 
   def build_attendance_by_day_data
@@ -76,17 +74,7 @@ class AttendanceReportsController < ApplicationController
   end
 
   def report_practices
-    practices = case params[:date_range]
-    when 'all_time'
-      @team.practices.where("practices.date <= (?)", Date.today)
-    when 'this_week'
-      @team.practices.where(date: Date.today.beginning_of_week..Date.today).order(:date)
-    when 'this_month'
-      @team.practices.where(date: Date.today.beginning_of_month..Date.today).order(:date)
-    else
-      @team.practices.where("practices.date <= (?)", Date.today)
-    end
-
+    practices = @team.practices.where(date: params[:start_date]..params[:end_date]).order(:date)
     params[:include_makeups].blank? ? practices.where(is_makeup: false) : practices
   end
 
