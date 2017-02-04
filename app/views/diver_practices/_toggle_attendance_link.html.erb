@@ -21,7 +21,7 @@
 <% elsif diver_practice.was_absent? %>
   <%= link_to '#', remote: true, class: 'pull-right', data: {
     toggle: "modal",
-    target: "#late-excuse-modal",
+    target: "#excused-absence-modal",
     diver_practice_id: diver_practice.id,
     diver_id: diver.id,
     diver_name: diver.name,
