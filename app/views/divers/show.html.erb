@@ -4,6 +4,11 @@
   </div>
 </div>
 
+<div class="visible">
+  <p class="huge">1M Goals: <%= @diver.goals.one_meter.map(&:number).join(', ') %></p>
+  <p class="huge">3M Goals: <%= @diver.goals.three_meter.map(&:number).join(', ') %></p>
+</div>
+
 <div class="row">
   <div class="col-xs-12">
     <div class="row">
