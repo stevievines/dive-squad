@@ -1,156 +1,154 @@
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-xs-12">
-      <h1 class="page-header"><%= @team.name %> Attendance Report</h1>
+<div class="row">
+  <div class="col-xs-12">
+    <h1 class="page-header"><%= @team.name %> Attendance Report</h1>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-xs-12 text-right">
+    <%= form_tag team_attendance_report_path(@team), method: :get do |f| %>
+      <%= check_box_tag :include_excused, true, params[:include_excused], onchange: 'this.form.submit();' %>
+      <%= label_tag :include_excused, "Include Excused Absences" %>
+      <%= check_box_tag :include_makeups, true, params[:include_makeups], onchange: 'this.form.submit();' %>
+      <%= label_tag :include_makeups, "Include Makeup Practices" %>
+    <% end %>
+
+    <div class="btn-group">
+      <button type="button" class="btn btn-primary dropdown-toggle" style='margin-bottom: 10px;' data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <%= params[:date_range].present? ? params[:date_range].titleize : 'All Time' %> <span class="caret"></span>
+      </button>
+
+      <ul class="dropdown-menu dropdown-menu-right">
+        <li>
+          <%= link_to('All Time', team_attendance_report_path(@team, date_range: 'all_time')) %>
+        </li>
+        <li>
+          <%= link_to('This Month', team_attendance_report_path(@team, date_range: 'this_month')) %>
+        </li>
+        <li>
+          <%= link_to('This Week', team_attendance_report_path(@team, date_range: 'this_week')) %>
+        </li>
+      </ul>
     </div>
   </div>
+</div>
 
-  <div class="row">
-    <div class="col-xs-12 text-right">
-      <%= form_tag team_attendance_report_path(@team), method: :get do |f| %>
-        <%= check_box_tag :include_excused, true, params[:include_excused], onchange: 'this.form.submit();' %>
-        <%= label_tag :include_excused, "Include Excused Absences" %>
-        <%= check_box_tag :include_makeups, true, params[:include_makeups], onchange: 'this.form.submit();' %>
-        <%= label_tag :include_makeups, "Include Makeup Practices" %>
-      <% end %>
-
-      <div class="btn-group">
-        <button type="button" class="btn btn-primary dropdown-toggle" style='margin-bottom: 10px;' data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <%= params[:date_range].present? ? params[:date_range].titleize : 'All Time' %> <span class="caret"></span>
-        </button>
-
-        <ul class="dropdown-menu dropdown-menu-right">
-          <li>
-            <%= link_to('All Time', team_attendance_report_path(@team, date_range: 'all_time')) %>
-          </li>
-          <li>
-            <%= link_to('This Month', team_attendance_report_path(@team, date_range: 'this_month')) %>
-          </li>
-          <li>
-            <%= link_to('This Week', team_attendance_report_path(@team, date_range: 'this_week')) %>
-          </li>
-        </ul>
-      </div>
+<div class="row">
+  <div class="col-md-6">
+    <div class="text-center">
+      <h5>Team Attendance</h5>
     </div>
-  </div>
-
-  <div class="row">
-    <div class="col-md-6">
-      <div class="text-center">
-        <h5>Team Attendance</h5>
-      </div>
-      <%= column_chart(
-        @line_chart_data,
-        discrete: true,
-        library: {
-          chartArea: {
-            height: '70%',
-            width: '85%',
-            top: '10%'
-          },
-          animation: {
-            duration: 600,
-            easing: 'linear',
-            startup: true
-          }
+    <%= column_chart(
+      @line_chart_data,
+      discrete: true,
+      library: {
+        chartArea: {
+          height: '70%',
+          width: '85%',
+          top: '10%'
         },
-        ytitle: 'Attendance Percentage',
-        colors: ['#2577B5']) %>
-    </div>
-
-    <div class="col-md-6">
-      <div class="text-center">
-        <h5>Attendance by Day</h5>
-      </div>
-      <%= column_chart(
-        @attendance_by_day_data,
-        discrete: true,
-        library: {
-          chartArea: {
-            height: '70%',
-            width: '85%',
-            top: '10%'
-          },
-          animation: {
-            duration: 600,
-            easing: 'linear',
-            startup: true
-          }
-        },
-        ytitle: 'Average Attendance',
-        colors: ['#7CB47C']
-      ) %>
-    </div>
+        animation: {
+          duration: 600,
+          easing: 'linear',
+          startup: true
+        }
+      },
+      ytitle: 'Attendance Percentage',
+      colors: ['#2577B5']) %>
   </div>
 
-  <div class="row">
-    <% @diver_averages.each do |diver, average| %>
-      <% if average > 70 %>
-        <% color_class = 'success' %>
-        <% icon = 'fa-thumbs-o-up' %>
-      <% elsif average < 50 %>
-        <% color_class = 'danger' %>
-        <% icon = 'fa-thumbs-o-down' %>
-      <% else %>
-        <% color_class = 'warning' %>
-        <% icon = 'fa-hand-rock-o' %>
-      <% end %>
+  <div class="col-md-6">
+    <div class="text-center">
+      <h5>Attendance by Day</h5>
+    </div>
+    <%= column_chart(
+      @attendance_by_day_data,
+      discrete: true,
+      library: {
+        chartArea: {
+          height: '70%',
+          width: '85%',
+          top: '10%'
+        },
+        animation: {
+          duration: 600,
+          easing: 'linear',
+          startup: true
+        }
+      },
+      ytitle: 'Average Attendance',
+      colors: ['#7CB47C']
+    ) %>
+  </div>
+</div>
 
-      <div class="col-lg-3 col-md-6">
-        <div class="flip">
-          <div class="card">
-            <div class="face front">
-              <div class="panel panel-<%= color_class %>">
-                <div class="panel-heading">
-                  <div class="row">
-                    <div class="col-xs-3">
-                      <i class="fa <%= icon %> fa-5x"></i>
-                    </div>
-                    <div class="col-xs-9 text-right">
-                      <div class="huge"><%= average %>%</div>
-                      <div class="medium"><%= diver.name %></div>
-                    </div>
+<div class="row">
+  <% @diver_averages.each do |diver, average| %>
+    <% if average > 70 %>
+      <% color_class = 'success' %>
+      <% icon = 'fa-thumbs-o-up' %>
+    <% elsif average < 50 %>
+      <% color_class = 'danger' %>
+      <% icon = 'fa-thumbs-o-down' %>
+    <% else %>
+      <% color_class = 'warning' %>
+      <% icon = 'fa-hand-rock-o' %>
+    <% end %>
+
+    <div class="col-lg-3 col-md-6">
+      <div class="flip">
+        <div class="card">
+          <div class="face front">
+            <div class="panel panel-<%= color_class %>">
+              <div class="panel-heading">
+                <div class="row">
+                  <div class="col-xs-3">
+                    <i class="fa <%= icon %> fa-5x"></i>
+                  </div>
+                  <div class="col-xs-9 text-right">
+                    <div class="huge"><%= average %>%</div>
+                    <div class="medium"><%= diver.name %></div>
                   </div>
                 </div>
-                <a href="javascript:void(0)" class="flipControl">
-                  <div class="panel-footer">
-                    <span class="pull-left">View Details</span>
-                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                    <div class="clearfix"></div>
-                  </div>
-                </a>
               </div>
+              <a href="javascript:void(0)" class="flipControl">
+                <div class="panel-footer">
+                  <span class="pull-left">View Details</span>
+                  <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                  <div class="clearfix"></div>
+                </div>
+              </a>
             </div>
-            <div class="face back">
-              <div class="panel panel-<%= color_class %>">
-                <div class="panel-heading">
-                  <div class="row">
-                    <div class="col-xs-4 text-center">
-                      <div class="huge"><%= diver.practices_made_count %></div>
-                      <div class="small">Attended</div>
-                    </div>
-                    <div class="col-xs-4 text-center">
-                      <div class="huge"><%= diver.absence_count %></div>
-                      <div class="small">Missed</div>
-                    </div>
-                    <div class="col-xs-4 text-center">
-                      <div class="huge"><%= diver.excused_absence_count %></div>
-                      <div class="small">Excused</div>
-                    </div>
+          </div>
+          <div class="face back">
+            <div class="panel panel-<%= color_class %>">
+              <div class="panel-heading">
+                <div class="row">
+                  <div class="col-xs-4 text-center">
+                    <div class="huge"><%= diver.practices_made_count %></div>
+                    <div class="small">Attended</div>
+                  </div>
+                  <div class="col-xs-4 text-center">
+                    <div class="huge"><%= diver.absence_count %></div>
+                    <div class="small">Missed</div>
+                  </div>
+                  <div class="col-xs-4 text-center">
+                    <div class="huge"><%= diver.excused_absence_count %></div>
+                    <div class="small">Excused</div>
                   </div>
                 </div>
-                <a href="javascript:void(0)" class="flipControl">
-                  <div class="panel-footer">
-                    <span class="pull-left"><%= diver.name %></span>
-                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                    <div class="clearfix"></div>
-                  </div>
-                </a>
               </div>
+              <a href="javascript:void(0)" class="flipControl">
+                <div class="panel-footer">
+                  <span class="pull-left"><%= diver.name %></span>
+                  <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                  <div class="clearfix"></div>
+                </div>
+              </a>
             </div>
           </div>
         </div>
       </div>
-    <% end %>
-  </div>
+    </div>
+  <% end %>
 </div>

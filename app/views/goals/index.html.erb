@@ -1,5 +1,5 @@
-<div class="container-fluid visible-sm">
-  <% @divers.each do |diver| %>
+<div class="visible-sm">
+  <% @divers.active.each do |diver| %>
     <p class="huge"><u><%= diver.name %></u></p>
     <% diver.goals.group_by {|g| g.dive.height }.each do |height, goals| %>
       <p class="huge">
@@ -9,24 +9,22 @@
   <% end %>
 </div>
 
-<div class="container-fluid">
-  <div class="row">
-    <% @divers.each do |diver| %>
-      <div class="col-md-4">
-        <div class="panel panel-success">
-          <div class="panel-heading">
-            <h3 class="panel-title"><%= diver.name %></h3>
-          </div>
-          <div class="panel-body">
-            <h3>#Goals</h3>
-          </div>
-          <ul class="list-group">
-            <% diver.goals.each do |goal| %>
-              <li class="list-group-item"><%= goal.display_description %></li>
-            <% end %>
-          </ul>
+<div class="row">
+  <% @divers.each do |diver| %>
+    <div class="col-md-4">
+      <div class="panel panel-success">
+        <div class="panel-heading">
+          <h3 class="panel-title"><%= diver.name %></h3>
         </div>
+        <div class="panel-body">
+          <h3>#Goals</h3>
+        </div>
+        <ul class="list-group">
+          <% diver.goals.each do |goal| %>
+            <li class="list-group-item"><%= goal.display_description %></li>
+          <% end %>
+        </ul>
       </div>
-    <% end %>
-  </div>
+    </div>
+  <% end %>
 </div>

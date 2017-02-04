@@ -1,100 +1,99 @@
-<div class="container-fluid">
-  <h1 class="page-header"><%= @team.name %> Attendance</h1>
+<h1 class="page-header"><%= @team.name %> Attendance</h1>
 
-  <div class="row">
-    <div class="col-xs-4">
-      <div class="form-inline">
-        <label>Practice Dates</label>
-        <div class="form-group">
-          <div id="reportrange" class="form-control" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%">
-            <i class="fa fa-calendar"></i>&nbsp;
-            <span></span> <b class="caret"></b>
-          </div>
+<div class="row">
+  <div class="col-xs-4">
+    <div class="form-inline">
+      <label>Practice Dates</label>
+      <div class="form-group">
+        <div id="reportrange" class="form-control" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%">
+          <i class="fa fa-calendar"></i>&nbsp;
+          <span></span> <b class="caret"></b>
         </div>
       </div>
     </div>
   </div>
+</div>
 
-  <script type="text/javascript">
-    $(function() {
-      function cb(start, end) {
-        var startDate = start.format('MM-DD-YYYY');
-        var endDate = end.format('MM-DD-YYYY');
-        $.post("<%= update_date_range_team_attendance_path(@team) %>", { start_date: startDate, end_date: endDate });
-        $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
-      }
-      cb(moment(), moment());
-      $('#reportrange').daterangepicker({
-        opens: 'right',
-        ranges: {
-          'Today': [moment(), moment()],
-          'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-          'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-          'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-          'This Month': [moment().startOf('month'), moment().endOf('month')],
+<script type="text/javascript">
+$(function() {
+  function cb(start, end) {
+    var startDate = start.format('MM-DD-YYYY');
+    var endDate = end.format('MM-DD-YYYY');
+    $.post("<%= update_date_range_team_attendance_path(@team) %>", { start_date: startDate, end_date: endDate });
+    $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+  }
+  cb(moment(), moment());
+  $('#reportrange').daterangepicker({
+    opens: 'right',
+    ranges: {
+      'Today': [moment(), moment()],
+      'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+      'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+        'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+        'This Month': [moment().startOf('month'), moment().endOf('month')],
           'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-        }
-      }, cb);
-    });
-  </script>
+    }
+  }, cb);
+});
+</script>
 
-  <div id='attendance-section'></div>
+<div id='attendance-section'></div>
 
-  <div class="row">
-    <div class="col-xs-12">
-      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#practices-modal">
-        Add Practices
-      </button>
+<div class="row">
+  <div class="col-xs-12">
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#practices-modal">
+      Add Practices
+    </button>
 
-      <% if @current_coach.google_drive_data.present? %>
-        <%= link_to("Export #{Date.today.strftime('%B')} Practices", export_practices_team_practices_path(@team), method: :post, class: 'btn btn-success', data: { disable_with: 'Loading...' }) %>
-      <% end %>
+    <% if @current_coach.google_drive_data.present? %>
+      <%= link_to("Export #{Date.today.strftime('%B')} Practices", export_practices_team_practices_path(@team), method: :post, class: 'btn btn-success', data: { disable_with: 'Loading...' }) %>
+    <% end %>
 
-      <div class="modal fade" id="practices-modal" role="dialog" aria-labelledby="practices-modal-label">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              <h4 class="modal-title" id="practices-modal-label">Add <%= @team.name %> Practices</h4>
-            </div>
-            <!-- TODO: add validation to prevent submitting both -->
-            <%= form_tag(add_practices_team_practices_path(@team), class: 'form-horizontal') do %>
-              <div class="modal-body">
-                <h4 class="text-center">Add Multiple Practices</h4>
-                <div class="form-group">
-                  <label class="col-sm-2 control-label" for="practice_days">Days</label>
-                  <div class="col-sm-10">
-                    <%= select_tag(:practice_days, options_for_select([['Monday', 1], ['Tuesday', 2], ['Wednesday', 3], ['Thursday', 4], ['Friday', 5], ['Saturday', 6], ['Sunday', 0]]), multiple: true, class: 'form-control js-day-select') %>
-                  </div>
-                </div>
-                <div class="text-center text-muted huge">
-                  OR
-                </div>
-                <h4 class="text-center">Add a Single Practice</h4>
-                <div class="form-group">
-                  <label class="col-sm-2 control-label" for="date">Date</label>
-                  <div class="col-sm-10">
-                    <%= date_field_tag :date, Date.today, { class: 'form-control' } %>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <div class="col-sm-offset-2 col-sm-10">
-                    <label>
-                      <%= check_box_tag :is_makeup, nil, true %> Makeup Practice?
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <%= submit_tag "Add Practices", class: 'btn btn-primary', data: { disable_with: 'Loading...' } %>
-              </div>
-            <% end %>
+    <div class="modal fade" id="practices-modal" role="dialog" aria-labelledby="practices-modal-label">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="practices-modal-label">Add <%= @team.name %> Practices</h4>
           </div>
+          <!-- TODO: add validation to prevent submitting both -->
+          <%= form_tag(add_practices_team_practices_path(@team), class: 'form-horizontal') do %>
+            <div class="modal-body">
+              <h4 class="text-center">Add Multiple Practices</h4>
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="practice_days">Days</label>
+                <div class="col-sm-10">
+                  <%= select_tag(:practice_days, options_for_select([['Monday', 1], ['Tuesday', 2], ['Wednesday', 3], ['Thursday', 4], ['Friday', 5], ['Saturday', 6], ['Sunday', 0]]), multiple: true, class: 'form-control js-day-select') %>
+                </div>
+              </div>
+              <div class="text-center text-muted huge">
+                OR
+              </div>
+              <h4 class="text-center">Add a Single Practice</h4>
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="date">Date</label>
+                <div class="col-sm-10">
+                  <%= date_field_tag :date, Date.today, { class: 'form-control' } %>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                  <label>
+                    <%= check_box_tag :is_makeup, nil, true %> Makeup Practice?
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <%= submit_tag "Add Practices", class: 'btn btn-primary', data: { disable_with: 'Loading...' } %>
+            </div>
+          <% end %>
         </div>
       </div>
     </div>
   </div>
+</div>
 </div>
 
 <div class="modal fade" id="minutes-late-modal" tabindex="-1" role="dialog" aria-labelledby="minutes-late-modal-label">
@@ -126,29 +125,28 @@
       </div>
       <div class="modal-body">
         <%= form_tag diver_practices_set_excuse_path, remote: true do %>
-            <div class="form-group">
-              <div class="field">
-                <%= label_tag :excuse %>
-                <%= text_field_tag :excuse, nil, { autofocus: true, class: 'form-control' } %>
-              </div>
+          <div class="form-group">
+            <div class="field">
+              <%= label_tag :excuse %>
+              <%= text_field_tag :excuse, nil, { autofocus: true, class: 'form-control' } %>
             </div>
+          </div>
 
-            <div class="form-group">
-              <div class="field">
-                <%= label_tag :excused_absence, 'Excusable Absence?' %>
-                <%= check_box_tag :excused_absence, nil, false %>
-              </div>
+          <div class="form-group">
+            <div class="field">
+              <%= label_tag :excused_absence, 'Excusable Absence?' %>
+              <%= check_box_tag :excused_absence, nil, false %>
             </div>
+          </div>
 
-            <%= hidden_field_tag "diver_id", nil %>
-            <%= hidden_field_tag "id", nil %>
+          <%= hidden_field_tag "diver_id", nil %>
+          <%= hidden_field_tag "id", nil %>
 
-            <div class="actions">
-              <%= submit_tag 'Save', class: 'btn btn-primary' %>
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
+          <div class="actions">
+            <%= submit_tag 'Save', class: 'btn btn-primary' %>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
         <% end %>
       </div>
     </div>
   </div>
-</div>

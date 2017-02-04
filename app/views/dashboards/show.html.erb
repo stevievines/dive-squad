@@ -1,93 +1,91 @@
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-xs-12">
-      <h1 class="page-header">Your Teams</h1>
-    </div>
+<div class="row">
+  <div class="col-xs-12">
+    <h1 class="page-header">Your Teams</h1>
   </div>
+</div>
 
-  <% if @teams.any? %>
-    <ul class="nav nav-pills">
-      <% @teams.each_with_index do |team, index| %>
-        <% tab_class = index == 0 ? 'active' : '' %>
-        <li role="presentation" class=<%= tab_class %>><a data-toggle="tab" href="#team-<%= team.id %>"><%= team.name %></a></li>
-      <% end %>
-      <li role="presentation">
-        <a data-toggle="modal" data-target="#new-team-modal">
-          <i class="fa fa-plus"></i> Add Team
-        </a>
-      </li>
-      <div class="modal fade" id="new-team-modal" role="dialog" aria-labelledby="new-team-modal-label">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              <h4 class="modal-title" id="new-team-modal-label">Add a Team!</h4>
-            </div>
-            <div class="modal-body">
-              <%= render '/teams/form' %>
-            </div>
+<% if @teams.any? %>
+  <ul class="nav nav-pills">
+    <% @teams.each_with_index do |team, index| %>
+      <% tab_class = index == 0 ? 'active' : '' %>
+      <li role="presentation" class=<%= tab_class %>><a data-toggle="tab" href="#team-<%= team.id %>"><%= team.name %></a></li>
+    <% end %>
+    <li role="presentation">
+      <a data-toggle="modal" data-target="#new-team-modal">
+        <i class="fa fa-plus"></i> Add Team
+      </a>
+    </li>
+    <div class="modal fade" id="new-team-modal" role="dialog" aria-labelledby="new-team-modal-label">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="new-team-modal-label">Add a Team!</h4>
+          </div>
+          <div class="modal-body">
+            <%= render '/teams/form' %>
           </div>
         </div>
       </div>
-    </ul>
-  <% else %>
-    <%= link_to new_team_path, remote: true, class: 'btn btn-primary' do %>
-      <i class="fa fa-plus"></i> Add Team</a>
-    <% end %>
-    <div class="row">
-      <div class="col-xs-8 col-xs-offset-2" id="team-form" style="display:none;"></div>
+    </div>
+  </ul>
+<% else %>
+  <%= link_to new_team_path, remote: true, class: 'btn btn-primary' do %>
+    <i class="fa fa-plus"></i> Add Team</a>
+  <% end %>
+  <div class="row">
+    <div class="col-xs-8 col-xs-offset-2" id="team-form" style="display:none;"></div>
+  </div>
+<% end %>
+
+<div class="modal fade" id="new-goal-modal" role="dialog" aria-labelledby="new-goal-modal-label">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="new-goal-modal-label">Add a Goal</h4>
+      </div>
+      <div class="modal-body">
+        <%= render '/goals/form' %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="tab-content">
+  <% @teams.each_with_index do |team, index| %>
+    <% tab_class = index == 0 ? 'in active' : '' %>
+    <div id="team-<%= team.id %>" class="tab-pane fade <%= tab_class %>">
+      <%= render partial: 'team_profile', locals: { team: team } %>
+      <hr>
+    <% divers = team.divers
+      .joins("LEFT JOIN diver_practices ON diver_practices.diver_id = divers.id")
+      .joins("LEFT JOIN practices ON practices.id = diver_practices.practice_id")
+      .where("practices.id IS NULL OR practices.date <= (?)", Date.today)
+      .select("divers.*, sum(case when diver_practices.was_present then 1 else 0 end) as attended_practices_count")
+      .select("divers.*, sum(case when diver_practices.was_present then 0 else 1 end) as missed_practices_count")
+      .group("divers.id").distinct("divers.id")
+      .order(deactivated_at: :desc, name: :asc)
+    %>
+    <div class="text-right">
+      <a class="btn btn-primary" style="margin-bottom: 10px;" data-toggle="modal" data-target="#new-diver-modal-<%= team.id %>">
+        <i class="fa fa-plus"></i> Add Diver
+      </a>
+    </div>
+    <div class="modal fade" id="new-diver-modal-<%= team.id %>" role="dialog" aria-labelledby="new-diver-modal-label">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="new-team-modal-label">Add a Diver!</h4>
+          </div>
+          <div class="modal-body">
+            <%= render '/divers/form' %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <%= render partial: 'diver_cards', locals: { divers: divers } %>
     </div>
   <% end %>
-
-  <div class="modal fade" id="new-goal-modal" role="dialog" aria-labelledby="new-goal-modal-label">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title" id="new-goal-modal-label">Add a Goal</h4>
-        </div>
-        <div class="modal-body">
-          <%= render '/goals/form' %>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="tab-content">
-    <% @teams.each_with_index do |team, index| %>
-      <% tab_class = index == 0 ? 'in active' : '' %>
-      <div id="team-<%= team.id %>" class="tab-pane fade <%= tab_class %>">
-        <%= render partial: 'team_profile', locals: { team: team } %>
-        <hr>
-      <% divers = team.divers
-        .joins("LEFT JOIN diver_practices ON diver_practices.diver_id = divers.id")
-        .joins("LEFT JOIN practices ON practices.id = diver_practices.practice_id")
-        .where("practices.id IS NULL OR practices.date <= (?)", Date.today)
-        .select("divers.*, sum(case when diver_practices.was_present then 1 else 0 end) as attended_practices_count")
-        .select("divers.*, sum(case when diver_practices.was_present then 0 else 1 end) as missed_practices_count")
-        .group("divers.id").distinct("divers.id")
-        .order(deactivated_at: :desc, name: :asc)
-      %>
-      <div class="text-right">
-        <a class="btn btn-primary" style="margin-bottom: 10px;" data-toggle="modal" data-target="#new-diver-modal-<%= team.id %>">
-          <i class="fa fa-plus"></i> Add Diver
-        </a>
-      </div>
-      <div class="modal fade" id="new-diver-modal-<%= team.id %>" role="dialog" aria-labelledby="new-diver-modal-label">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              <h4 class="modal-title" id="new-team-modal-label">Add a Diver!</h4>
-            </div>
-            <div class="modal-body">
-              <%= render '/divers/form' %>
-            </div>
-          </div>
-        </div>
-      </div>
-      <%= render partial: 'diver_cards', locals: { divers: divers } %>
-      </div>
-    <% end %>
-  </div>
 </div>
