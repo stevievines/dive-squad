@@ -30,7 +30,7 @@ class GoalsController < ApplicationController
   end
 
   def set_divers
-    @divers = current_coach.divers.active.includes(goals: :dive)
+    @divers = current_coach.divers.active.includes(goals: :dive).order(:name)
   end
 
   def goal_params

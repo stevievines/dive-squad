@@ -6,6 +6,6 @@ class Goal < ActiveRecord::Base
   validates_uniqueness_of :dive
 
   scope :three_meter, -> { includes(:dive).where(dives: { height: 3 }) }
-  scope :one_meter, -> { includes(:dive).where(dives: { height: 3 }) }
+  scope :one_meter, -> { includes(:dive).where(dives: { height: 1 }) }
   scope :platform, -> { includes(:dive).where(dives: { height: [5, 7, 10] }) }
 end

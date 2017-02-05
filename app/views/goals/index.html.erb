@@ -1,15 +1,30 @@
-<div class="visible-sm">
-  <% @divers.active.each do |diver| %>
-    <p class="huge"><u><%= diver.name %></u></p>
-    <% diver.goals.group_by {|g| g.dive.height }.each do |height, goals| %>
-      <p class="huge">
-        <%= height %>M: <%= goals.map(&:dive).map(&:number).join(', ') %>
-      </p>
-    <% end %>
+<div class="visible-md visible-lg panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+  <% @divers.each do |diver| %>
+    <div class="panel panel-success">
+      <div class="panel-heading" role="tab" id="headingOne">
+        <h4 class="panel-title">
+          <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-<%= diver.id %>" aria-expanded="true" aria-controls="collapseOne">
+            <%= diver.name %>
+          </a>
+        </h4>
+      </div>
+      <div id="collapse-<%= diver.id %>" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+        <div class="panel-body">
+          <%= render 'divers/goals', diver: diver %>
+        </div>
+      </div>
+    </div>
   <% end %>
 </div>
 
-<div class="row">
+<div class="visible-sm">
+  <% @divers.each do |diver| %>
+    <p class="huge"><u><%= diver.name %></u></p>
+    <%= render 'divers/goals', diver: diver %>
+  <% end %>
+</div>
+
+<div class="row hide">
   <% @divers.each do |diver| %>
     <div class="col-md-4">
       <div class="panel panel-success">

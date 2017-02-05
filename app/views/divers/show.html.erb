@@ -5,8 +5,7 @@
 </div>
 
 <div class="visible">
-  <p class="huge">1M Goals: <%= @diver.goals.one_meter.map(&:number).join(', ') %></p>
-  <p class="huge">3M Goals: <%= @diver.goals.three_meter.map(&:number).join(', ') %></p>
+  <%= render 'divers/goals', diver: diver %>
 </div>
 
 <div class="row">
