@@ -13,17 +13,17 @@ class TeamsController < ApplicationController
 
   def create
     @team = @current_coach.teams.create(team_params)
-    redirect_to :back, flash: { success: "Team Created!" }
+    redirect_to dashboard_path, flash: { success: "Team Created!" }
   end
 
   def update
     @team.update_attributes(team_params)
-    redirect_to :back, flash: { success: "Team Name Updated!" }
+    redirect_to dashboard_path, flash: { success: "Team Name Updated!" }
   end
 
   def destroy
     @team.destroy
-    redirect_to :back, flash: { success: "Team Destroyed!" }
+    redirect_to dashboard_path, flash: { success: "Team Destroyed!" }
   end
 
   private

@@ -1,6 +1,8 @@
 class GoalsController < ApplicationController
   before_action :set_diver, only: :create
   before_action :set_divers, only: :index
+  # This is needed to re-seed the add goal form
+  before_action :all_dives
 
   def create
     add_goals
@@ -15,7 +17,6 @@ class GoalsController < ApplicationController
   end
 
   def index
-
   end
 
   private
@@ -34,9 +35,5 @@ class GoalsController < ApplicationController
 
   def set_divers
     @divers = current_coach.divers.active.includes(goals: :dive).order(:name)
-  end
-
-  def goal_params
-    params.require(:goal).permit(:dive_id)
   end
 end

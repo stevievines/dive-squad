@@ -21,7 +21,7 @@ class CoachesController < ApplicationController
     else
       flash[:danger] = "Details could not be updated"
     end
-    redirect_to :back
+    redirect_to root_path
   end
 
   private

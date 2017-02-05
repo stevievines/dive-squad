@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Goal, type: :model do
   let(:goal) { FactoryGirl.create(:goal) }
+
   it 'has a valid factory' do
     expect(goal).to be_valid
   end

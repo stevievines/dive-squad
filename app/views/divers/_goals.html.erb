@@ -3,5 +3,6 @@
   <p class="huge">3M Goals: <%= diver.goals.three_meter.map(&:number).join(', ') %></p>
   <p class="huge">Platform Goals: <%= diver.goals.platform.map(&:number).join(', ') %></p>
 
+  <hr>
   <%= render '/goals/form', remote: true, diver_id: diver.id %>
 </div>

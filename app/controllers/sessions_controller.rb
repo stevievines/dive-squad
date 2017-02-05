@@ -8,7 +8,9 @@ class SessionsController < ApplicationController
     coach = Coach.find_by_email(params[:email])
     # if the coach exists AND the password entered is correct
     if coach && coach.authenticate(params[:password])
-      # save the coach id inside the browser cookie. This is how we keep the coach logged in when they navigate around our website.
+      # save the coach id inside the browser cookie. This is how
+      # we keep the coach logged in when they navigate around
+      # our website.
       session[:coach_id] = coach.id
       redirect_to root_path
     else

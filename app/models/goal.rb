@@ -3,6 +3,7 @@ class Goal < ActiveRecord::Base
 
   delegate :display_description, :number, to: :dive
 
+  # is this too strict?
   validates_uniqueness_of :dive
 
   scope :three_meter, -> { includes(:dive).where(dives: { height: 3 }) }

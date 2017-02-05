@@ -1,5 +1,5 @@
 class DashboardsController < ApplicationController
-  before_filter :all_teams, :all_divers
+  before_action :all_teams, :all_divers, :all_dives
 
   # Overriding Application controller method for more reporting counts
   def all_teams

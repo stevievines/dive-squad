@@ -1,7 +1,8 @@
 <%= form_for(@goal || Goal.new, remote: remote) do |f| %>
   <div class="form-group">
     <div class="field">
-      <%= select_tag :dives, options_from_collection_for_select(Dive.all, :id, :display_description), include_blank: true, multiple: true, class: 'form-control js-dive-select' %>
+      <%= label_tag 'Add a Goal' %>
+      <%= select_tag :dives, options_from_collection_for_select(@dives, :id, :display_description), include_blank: true, multiple: true, class: 'form-control js-dive-select' %>
     </div>
   </div>
 

@@ -27,4 +27,8 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def all_dives
+    @dives ||= Dive.all
+  end
+
 end
