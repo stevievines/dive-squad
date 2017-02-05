@@ -28,12 +28,7 @@ Rails.application.routes.draw do
         post :update_date_range
       end
     end
-    # TODO: move to reporting module?
-    resource :attendance_report, only: :show do
-      collection do
-        post :update_date_range
-      end
-    end
+    resource :attendance_report, only: :show
   end
   resources :divers do
     member do

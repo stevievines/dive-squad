@@ -4,11 +4,18 @@ class AttendanceReportsController < ApplicationController
                 :set_attendance_by_day_data,
                 :set_diver_averages
 
-  def update_date_range
-    respond_to { |format| format.js }
+  def show
   end
 
   private
+
+  def start_date
+    @start_date = params[:start_date] || @team.practices.order(:date).first.date
+  end
+
+  def end_date
+    @end_date = params[:end_date] || Date.today
+  end
 
   def set_team
     @team = @current_coach.teams.find(params[:team_id])
@@ -38,13 +45,9 @@ class AttendanceReportsController < ApplicationController
   end
 
   def report_divers
-    if params[:start_date] && params[:end_date]
-      divers = @team.divers.joins(:practices).where(practices: { date: params[:start_date]..params[:end_date] })
-      divers = params[:include_makeups].blank? ? divers.where(practices: { is_makeup: false }) : divers
-      divers = params[:include_excused].blank? ? divers.where(diver_practices: { excused_absence: nil }) : divers
-    else
-      Diver.none
-    end
+    divers = @team.divers.joins(:practices).where(practices: { date: start_date..end_date })
+    divers = params[:include_makeups].blank? ? divers.where(practices: { is_makeup: false }) : divers
+    divers = params[:include_excused].blank? ? divers.where(diver_practices: { excused_absence: nil }) : divers
   end
 
   def build_attendance_by_day_data
@@ -74,7 +77,7 @@ class AttendanceReportsController < ApplicationController
   end
 
   def report_practices
-    practices = @team.practices.where(date: params[:start_date]..params[:end_date]).order(:date)
+    practices = @team.practices.where(date: start_date..end_date).order(:date)
     params[:include_makeups].blank? ? practices.where(is_makeup: false) : practices
   end
 

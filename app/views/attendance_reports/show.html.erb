@@ -5,50 +5,22 @@
 </div>
 
 <div class="row">
-  <div class="col-xs-12 text-right">
+  <div class="col-xs-12 text-center">
     <%= form_tag team_attendance_report_path(@team), method: :get do |f| %>
-      <%= check_box_tag :include_excused, true, params[:include_excused], onchange: 'this.form.submit();' %>
-      <%= label_tag :include_excused, "Include Excused Absences" %>
-      <%= check_box_tag :include_makeups, true, params[:include_makeups], onchange: 'this.form.submit();' %>
-      <%= label_tag :include_makeups, "Include Makeup Practices" %>
-    <% end %>
+      <%= label_tag :start_date, "From" %>
+      <%= date_field_tag :start_date, @start_date, max: Date.today %>
+      <%= label_tag :end_date, "To" %>
+      <%= date_field_tag :end_date, Date.today %>
 
-    <div class="col-xs-4">
-      <div class="form-inline">
-        <label>Practice Dates</label>
-        <div class="form-group">
-          <div id="reportrange" class="form-control" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%">
-            <i class="fa fa-calendar"></i>&nbsp;
-            <span></span> <b class="caret"></b>
-          </div>
-        </div>
-      </div>
-    </div>
+      <%= check_box_tag :include_excused, true, params[:include_excused] %>
+      <%= label_tag :include_excused, "Include Excused Absences" %>
+      <%= check_box_tag :include_makeups, true, params[:include_makeups] %>
+      <%= label_tag :include_makeups, "Include Makeup Practices" %>
+      <%= button_tag 'Reload Report', class: 'btn btn-primary', data: { disable_with: 'reloading...' } %>
+    <% end %>
   </div>
 </div>
 
-<div id='attendance-report-section'></div>
-
-<script type="text/javascript">
-  $(function() {
-    function cb(start, end) {
-      var startDate = start.format('MM-DD-YYYY');
-      var endDate = end.format('MM-DD-YYYY');
-      $.post("<%= update_date_range_team_attendance_report_path(@team) %>", { start_date: startDate, end_date: endDate });
-      $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
-    }
-    cb(moment(), moment());
-    $('#reportrange').daterangepicker({
-      opens: 'right',
-      ranges: {
-        'Today': [moment(), moment()],
-        'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-        'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-          'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-          'This Month': [moment().startOf('month'), moment().endOf('month')],
-            'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-      }
-    }, cb);
-  });
-</script>
-
+<div id='attendance-report-section'>
+  <%= render 'report' %>
+</div>
