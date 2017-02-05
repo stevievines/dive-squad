@@ -4,11 +4,9 @@
   </div>
 </div>
 
-<div class="visible">
-  <%= render 'divers/goals', diver: diver %>
-</div>
+<%= render 'divers/goals', diver: @diver %>
 
-<div class="row">
+<div class="row hide">
   <div class="col-xs-12">
     <div class="row">
       <div class="col-xs-8 col-xs-offset-2" id="list-form" style="display:none;"></div>
@@ -58,6 +56,6 @@
   </div>
 <% end %>
 
-<div id='lists'>
+<div id='lists' class='hide'>
   <%= render @diver.lists %>
 </div>

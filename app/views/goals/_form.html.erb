@@ -1,15 +1,14 @@
-<%= form_for @goal || Goal.new do |f| %>
+<%= form_for(@goal || Goal.new, remote: remote) do |f| %>
   <div class="form-group">
     <div class="field">
-      <%= label_tag :dives %><br />
       <%= select_tag :dives, options_from_collection_for_select(Dive.all, :id, :display_description), include_blank: true, multiple: true, class: 'form-control js-dive-select' %>
     </div>
   </div>
 
-  <%= hidden_field_tag "diver_id", nil %>
+  <%= hidden_field_tag "diver_id", diver_id %>
 
   <div class="actions">
     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-    <%= f.submit "Save", class: 'btn btn-primary' %>
+    <%= f.submit "Add Goal", data: { disable_with: 'Saving' }, class: 'btn btn-primary' %>
   </div>
 <% end %>

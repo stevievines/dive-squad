@@ -5,7 +5,10 @@ class GoalsController < ApplicationController
   def create
     add_goals
     flash[:success] = "Goal Added!"
-    redirect_to dashboard_path
+    respond_to do |format|
+      format.html { redirect_to dashboard_path }
+      format.js
+    end
   rescue ActiveRecord::RecordInvalid => ex
     flash[:danger] = ex.message
     redirect_to dashboard_path
