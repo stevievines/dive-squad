@@ -1,0 +1,200 @@
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/highcharts-more.js"></script>
+<script src="https://code.highcharts.com/modules/data.js"></script>
+<script src="https://code.highcharts.com/modules/drilldown.js"></script>
+
+<div class='row'>
+  <div class='col-md-6'>
+    <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+  </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    // Create the chart
+    $('#container').highcharts({
+        chart: {
+            polar: true,
+            type: 'column'
+        },
+        title: {
+            text: 'Diving Fundamentals'
+        },
+        subtitle: {
+            text: 'Click the columns to view breakdown.'
+        },
+        xAxis: {
+            type: 'category'
+        },
+        yAxis: {
+            title: {
+                text: 'Mastery'
+            }
+
+        },
+        legend: {
+            enabled: false
+        },
+        plotOptions: {
+            series: {
+                borderWidth: 0,
+                dataLabels: {
+                    enabled: true,
+                    format: '{point.y:.1f}%'
+                }
+            }
+        },
+
+        tooltip: {
+            headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+            pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> of total<br/>'
+        },
+
+        series: [{
+            name: 'Fundamentals',
+            colorByPoint: true,
+            data: [{
+                name: 'Diver Positions',
+                y: 80,
+                drilldown: 'Diver Positions'
+            }, {
+                name: 'Finishes',
+                y: 45,
+                drilldown: 'Finishes'
+            }, {
+                name: 'Take Offs',
+                y: 40,
+                drilldown: 'Take Offs'
+            }, {
+                name: 'Boardwork',
+                y: 65,
+                drilldown: 'Boardwork'
+            }, {
+                name: 'Twisting',
+                y: 50.91,
+                drilldown: 'Twisting'
+            }]
+        }],
+        drilldown: {
+            series: [{
+                name: 'Diver Positions',
+                id: 'Diver Positions',
+                data: [
+                    [
+                        'Tuck',
+                        70
+                    ],
+                    [
+                        'Pike',
+                        70
+                    ],
+                    [
+                        'Hollow',
+                        50
+                    ],
+                    [
+                        'Twisting',
+                        50
+                    ]
+                ]
+            }, {
+                name: 'Finishes',
+                id: 'Finishes',
+                data: [
+                    [
+                        'Front Entry',
+                        80
+                    ],
+                    [
+                        'Back Entry',
+                        70
+                    ],
+                    [
+                        'Front Tuck',
+                        75
+                    ],
+                    [
+                        'Front Pike',
+                        65
+                    ],
+                    [
+                        'Back Tuck',
+                        50
+                    ],
+                    [
+                        'Back Pike',
+                        40
+                    ],
+                    [
+                        'v31.0',
+                        1.24
+                    ]
+                ]
+            }, {
+                name: 'Take Offs',
+                id: 'Take Offs',
+                data: [
+                    [
+                        'Front',
+                        70
+                    ],
+                    [
+                        'Back',
+                        50
+                    ],
+                    [
+                        'Reverse',
+                        40
+                    ],
+                    [
+                        'Inward',
+                        40
+                    ]
+                ]
+            }, {
+                name: 'Boardwork',
+                id: 'Boardwork',
+                data: [
+                    [
+                        'Standing',
+                        90
+                    ],
+                    [
+                        'Bouncing',
+                        65
+                    ],
+                    [
+                        'Press',
+                        70
+                    ],
+                    [
+                        'Hurdle',
+                        75
+                    ]
+                ]
+            }, {
+                name: 'Twisting',
+                id: 'Twisting',
+                data: [
+                    [
+                        'Initiating Front Twist',
+                        75
+                    ],
+                    [
+                        'Initiating Back Twist',
+                        85
+                    ],
+                    [
+                        'Stopping Twist',
+                        50
+                    ],
+                    [
+                        'Diving down Twist',
+                        40
+                    ]
+                ]
+            }]
+        }
+    });
+});
+</script>

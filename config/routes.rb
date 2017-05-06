@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
 
   root to: 'dashboards#show'
+  get '/charts' => 'charts#index'
 
   get '/login' => 'sessions#new'
   post '/login' => 'sessions#create'
