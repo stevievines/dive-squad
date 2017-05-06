@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :fundamentals, only: %i(new create index show)
   root to: 'dashboards#show'
   get '/charts' => 'charts#index'
 

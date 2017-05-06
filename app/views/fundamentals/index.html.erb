@@ -1,0 +1,27 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Fundamentals</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @fundamentals.each do |fundamental| %>
+      <tr>
+        <td><%= fundamental.name %></td>
+        <td><%= link_to 'Show', fundamental %></td>
+        <td><%= link_to 'Edit', edit_fundamental_path(fundamental) %></td>
+        <td><%= link_to 'Destroy', fundamental, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Fundamental', new_fundamental_path %>
