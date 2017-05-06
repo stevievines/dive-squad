@@ -1,6 +1,4 @@
-<p id="notice"><%= notice %></p>
-
-<h1>Listing Fundamentals</h1>
+<h1>Diving Fundamentals</h1>
 
 <table>
   <thead>
@@ -13,9 +11,7 @@
   <tbody>
     <% @fundamentals.each do |fundamental| %>
       <tr>
-        <td><%= fundamental.name %></td>
-        <td><%= link_to 'Show', fundamental %></td>
-        <td><%= link_to 'Edit', edit_fundamental_path(fundamental) %></td>
+        <td><%= link_to fundamental.name, fundamental %></td>
         <td><%= link_to 'Destroy', fundamental, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>

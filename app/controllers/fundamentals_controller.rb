@@ -1,5 +1,5 @@
 class FundamentalsController < ApplicationController
-  before_action :set_fundamental, only: [:show, :edit, :update, :destroy]
+  before_action :set_fundamental, only: [:show, :destroy]
 
   # GET /fundamentals
   # GET /fundamentals.json
@@ -17,10 +17,6 @@ class FundamentalsController < ApplicationController
     @fundamental = Fundamental.new
   end
 
-  # GET /fundamentals/1/edit
-  def edit
-  end
-
   # POST /fundamentals
   # POST /fundamentals.json
   def create
@@ -32,20 +28,6 @@ class FundamentalsController < ApplicationController
         format.json { render :show, status: :created, location: @fundamental }
       else
         format.html { render :new }
-        format.json { render json: @fundamental.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # PATCH/PUT /fundamentals/1
-  # PATCH/PUT /fundamentals/1.json
-  def update
-    respond_to do |format|
-      if @fundamental.update(fundamental_params)
-        format.html { redirect_to @fundamental, notice: 'Fundamental was successfully updated.' }
-        format.json { render :show, status: :ok, location: @fundamental }
-      else
-        format.html { render :edit }
         format.json { render json: @fundamental.errors, status: :unprocessable_entity }
       end
     end

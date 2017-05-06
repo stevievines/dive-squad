@@ -1,0 +1,13 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @skill.name %>
+</p>
+
+<p>
+  <strong>Fundamental:</strong>
+  <%= @skill.fundamental.name %>
+</p>
+
+<%= link_to 'Back', fundamental_skills_path(@fundamental) %>

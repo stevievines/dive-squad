@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
 
-  resources :fundamentals, only: %i(new create index show)
+  resources :fundamentals, only: %i(new create index show) do
+    resources :skills, only: %i(new create index show)
+  end
+
   root to: 'dashboards#show'
   get '/charts' => 'charts#index'
 

@@ -1,9 +1,14 @@
-<p id="notice"><%= notice %></p>
-
 <p>
   <strong>Name:</strong>
   <%= @fundamental.name %>
 </p>
 
-<%= link_to 'Edit', edit_fundamental_path(@fundamental) %> |
+<h3>Skills</h3>
+<ul>
+  <% @fundamental.skills.each do |skill| %>
+    <li><%= link_to skill.name, [@fundamental, skill] %></li>
+  <% end %>
+</ul>
+
+<%= link_to 'Add Skill', new_fundamental_skill_path(@fundamental) %>
 <%= link_to 'Back', fundamentals_path %>
