@@ -24,7 +24,7 @@ class FundamentalsController < ApplicationController
 
     respond_to do |format|
       if @fundamental.save
-        format.html { redirect_to @fundamental, notice: 'Fundamental was successfully created.' }
+        format.html { redirect_to @fundamental, success: 'Fundamental was successfully created.' }
         format.json { render :show, status: :created, location: @fundamental }
       else
         format.html { render :new }
@@ -38,7 +38,7 @@ class FundamentalsController < ApplicationController
   def destroy
     @fundamental.destroy
     respond_to do |format|
-      format.html { redirect_to fundamentals_url, notice: 'Fundamental was successfully destroyed.' }
+      format.html { redirect_to fundamentals_url, success: 'Fundamental was successfully destroyed.' }
       format.json { head :no_content }
     end
   end

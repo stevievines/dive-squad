@@ -1,6 +1,6 @@
 class SkillsController < ApplicationController
-  before_action :set_skill, only: [:show, :destroy]
   before_action :set_fundamental
+  before_action :set_skill, only: [:show, :destroy]
 
   # GET /skills
   # GET /skills.json
@@ -25,7 +25,7 @@ class SkillsController < ApplicationController
 
     respond_to do |format|
       if @skill.save
-        format.html { redirect_to [@fundamental, @skill], notice: 'Skill was successfully created.' }
+        format.html { redirect_to [@fundamental, @skill], success: 'Skill was successfully created.' }
         format.json { render :show, status: :created, location: @skill }
       else
         format.html { render :new }
@@ -39,7 +39,7 @@ class SkillsController < ApplicationController
   def destroy
     @skill.destroy
     respond_to do |format|
-      format.html { redirect_to skills_url, notice: 'Skill was successfully destroyed.' }
+      format.html { redirect_to fundamental_skills_url(@fundamental), success: 'Skill was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -56,6 +56,6 @@ class SkillsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def skill_params
-      params.require(:skill).permit(:name, :fundamental_id)
+      params.require(:skill).permit(:name, :fundamental_id, drills_attributes: [:name, :progression])
     end
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170506145955) do
+ActiveRecord::Schema.define(version: 20170506152534) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -79,6 +79,16 @@ ActiveRecord::Schema.define(version: 20170506145955) do
     t.datetime "updated_at",  null: false
   end
 
+  create_table "drills", force: :cascade do |t|
+    t.string   "name",        null: false
+    t.integer  "progression", null: false
+    t.integer  "skill_id",    null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "drills", ["skill_id"], name: "index_drills_on_skill_id", using: :btree
+
   create_table "fundamentals", force: :cascade do |t|
     t.string   "name",       null: false
     t.datetime "created_at", null: false
@@ -135,5 +145,6 @@ ActiveRecord::Schema.define(version: 20170506145955) do
     t.string "name", null: false
   end
 
+  add_foreign_key "drills", "skills"
   add_foreign_key "skills", "fundamentals"
 end

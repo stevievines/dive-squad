@@ -11,9 +11,19 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :name %><br>
-    <%= f.text_field :name %>
+  <div class="form-group">
+    <div class="field">
+      <%= f.label :name %><br>
+      <%= f.text_field :name %>
+    </div>
+  </div>
+  <%= label_tag 'Drill Progressions' %>
+  <div class="form-group">
+    <% 10.times do |i| %>
+      Level <%= i + 1 %>: <%= text_field_tag "skill[drills_attributes][][name]", nil, placeholder: 'Drill' %>
+    <%= hidden_field_tag "skill[drills_attributes][][progression]", i + 1 %>
+    <br>
+  <% end %>
   </div>
   <div class="actions">
     <%= f.submit %>

@@ -1,7 +1,12 @@
 Rails.application.routes.draw do
 
   resources :fundamentals, only: %i(new create index show) do
-    resources :skills, only: %i(new create index show)
+    resources :skills, only: %i(new create index show destroy)
+  end
+
+  # NOTE to avoid triple nesting. should I entirely avoid nesting?
+  resources :skills, only: %i() do
+    resources :drills, only: %i(new create index show)
   end
 
   root to: 'dashboards#show'
