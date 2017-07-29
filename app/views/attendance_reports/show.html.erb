@@ -16,6 +16,8 @@
       <%= label_tag :include_excused, "Include Excused Absences" %>
       <%= check_box_tag :include_makeups, true, params[:include_makeups] %>
       <%= label_tag :include_makeups, "Include Makeup Practices" %>
+      <%= check_box_tag :include_inactive, true, params[:include_inactive] %>
+      <%= label_tag :include_inactive, "Include Deactivated Divers" %>
       <%= button_tag 'Reload Report', class: 'btn btn-primary', data: { disable_with: 'reloading...' } %>
     <% end %>
   </div>

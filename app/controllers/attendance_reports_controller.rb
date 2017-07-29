@@ -10,7 +10,7 @@ class AttendanceReportsController < ApplicationController
   private
 
   def start_date
-    @start_date = params[:start_date] || @team.practices.order(:date).first.date
+    @start_date = params[:start_date] || 30.days.ago.to_date
   end
 
   def end_date
@@ -46,6 +46,7 @@ class AttendanceReportsController < ApplicationController
 
   def report_divers
     divers = @team.divers.joins(:practices).where(practices: { date: start_date..end_date })
+    divers = params[:include_inactive].blank? ? divers.active : divers
     divers = params[:include_makeups].blank? ? divers.where(practices: { is_makeup: false }) : divers
     divers = params[:include_excused].blank? ? divers.where(diver_practices: { excused_absence: nil }) : divers
   end
