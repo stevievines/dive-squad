@@ -61,55 +61,22 @@
     <% end %>
 
     <div class="col-lg-3 col-md-6">
-      <div class="flip">
-        <div class="card">
-          <div class="face front">
-            <div class="panel panel-<%= color_class %>">
-              <div class="panel-heading">
-                <div class="row">
-                  <div class="col-xs-3">
-                    <i class="fa <%= icon %> fa-5x"></i>
-                  </div>
-                  <div class="col-xs-9 text-right">
-                    <div class="huge"><%= average %>%</div>
-                    <div class="medium"><%= diver.name %></div>
-                  </div>
-                </div>
+      <div class="card">
+        <div class="panel panel-<%= color_class %>">
+          <div class="panel-heading">
+            <div class="row">
+              <div class="col-xs-9 text-left">
+                <div class="medium"><u><%= diver.name %></u></div>
+                <div class="small"><%= diver.practices_made_count %> Attended</div>
+                <div class="small"><%= diver.absence_count %> Missed</div>
+                <% if params[:include_excused] %>
+                  <div class="small"><%= diver.excused_absence_count %> Excused</div>
+                <% end %>
               </div>
-              <a href="javascript:void(0)" class="flipControl">
-                <div class="panel-footer">
-                  <span class="pull-left">View Details</span>
-                  <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                  <div class="clearfix"></div>
-                </div>
-              </a>
-            </div>
-          </div>
-          <div class="face back">
-            <div class="panel panel-<%= color_class %>">
-              <div class="panel-heading">
-                <div class="row">
-                  <div class="col-xs-4 text-center">
-                    <div class="huge"><%= diver.practices_made_count %></div>
-                    <div class="small">Attended</div>
-                  </div>
-                  <div class="col-xs-4 text-center">
-                    <div class="huge"><%= diver.absence_count %></div>
-                    <div class="small">Missed</div>
-                  </div>
-                  <div class="col-xs-4 text-center">
-                    <div class="huge"><%= diver.excused_absence_count %></div>
-                    <div class="small">Excused</div>
-                  </div>
-                </div>
+              <div class="col-xs-3">
+                <i class="fa <%= icon %> fa-5x"></i>
+                <div class="small text-center"><%= average %>%</div>
               </div>
-              <a href="javascript:void(0)" class="flipControl">
-                <div class="panel-footer">
-                  <span class="pull-left"><%= diver.name %></span>
-                  <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                  <div class="clearfix"></div>
-                </div>
-              </a>
             </div>
           </div>
         </div>
