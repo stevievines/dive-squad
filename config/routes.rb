@@ -38,7 +38,9 @@ Rails.application.routes.draw do
         post :update_date_range
       end
     end
-    resource :attendance_report, only: :show
+    resource :attendance_report, only: :show do
+      get 'diver'
+    end
   end
   resources :divers do
     member do

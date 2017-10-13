@@ -1,13 +1,23 @@
 class AttendanceReportsController < ApplicationController
-  before_action :set_team,
-                :set_line_chart_data,
+  before_action :set_team
+
+  before_action :set_line_chart_data,
                 :set_attendance_by_day_data,
-                :set_diver_averages
+                :set_diver_averages, only: :show
+
+  before_action :set_diver, :set_diver_attendance_by_day_data, :set_diver_pie_data, only: :diver
 
   def show
   end
 
+  def diver
+  end
+
   private
+
+  def set_diver
+    @diver = @team.divers.find(params[:diver_id])
+  end
 
   def start_date
     @start_date = params[:start_date] || 30.days.ago.to_date
@@ -27,6 +37,14 @@ class AttendanceReportsController < ApplicationController
 
   def set_attendance_by_day_data
     @attendance_by_day_data = build_attendance_by_day_data
+  end
+
+  def set_diver_attendance_by_day_data
+    @diver_attendance_by_day_data = build_diver_attendance_by_day_data
+  end
+
+  def set_diver_pie_data
+    @diver_pie_data = build_diver_pie_data
   end
 
   def set_diver_averages
@@ -67,6 +85,22 @@ class AttendanceReportsController < ApplicationController
     attendance_by_day
   end
 
+  def build_diver_attendance_by_day_data
+    results = {}
+    report_practices.joins(:diver_practices)
+      .select("practices.*, (sum(case when diver_practices.was_present then 1 else 0 end) / count(diver_practices.id)::float) as attendance_percentage")
+      .where("practices.date <= (?) AND diver_practices.diver_id = (?)", Date.today, params[:diver_id])
+      .order(:date).group("practices.id")
+      .each do |practice|
+        results[practice.date.wday] ||= []
+        results[practice.date.wday] << (100 * practice.attendance_percentage).round(0)
+      end
+    attendance_by_day = {}
+    # possible to do this at database level?
+    results.each { |day, attendances| attendance_by_day[Date::DAYNAMES[day]] = average_attendance(attendances) }
+    attendance_by_day
+  end
+
   def build_line_data
     {}.tap do |results|
       report_practices.joins(:diver_practices)
@@ -74,6 +108,14 @@ class AttendanceReportsController < ApplicationController
         .where("practices.date <= (?)", Date.today)
         .order(:date).group("practices.id")
         .each { |practice| results[practice.date.strftime('%-m/%-d')] = (100 * practice.attendance_percentage).round(0) }
+    end
+  end
+
+  def build_diver_pie_data
+    Hash.new(0).tap do |results|
+      DiverPractice.joins(:practice).where(diver_id: params[:diver_id], practices: { date: start_date..end_date }).each do |dp|
+        results[dp.display_name] += 1
+      end
     end
   end
 

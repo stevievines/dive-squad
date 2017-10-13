@@ -5,4 +5,14 @@ class DiverPractice < ActiveRecord::Base
   def was_absent?
     was_present == false
   end
+
+  def display_name
+    if was_present
+      "Present"
+    elsif excused_absence
+      "Excused"
+    else
+      "Absent"
+    end
+  end
 end

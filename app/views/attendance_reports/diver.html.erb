@@ -1,28 +1,28 @@
 <div class="row">
   <div class="col-xs-12">
-    <h1 class="page-header"><%= @team.name %> Attendance Report</h1>
+    <h1 class="page-header">
+      <%= @diver.name %> Attendance Report
+    </h1>
+    <%= link_to("Team Report", team_attendance_report_path(@team), class: 'btn btn-primary', data: { disable_with: 'loading...' }) %>
   </div>
 </div>
 
 <div class="row">
   <div class="col-xs-12 text-center">
-    <%= form_tag team_attendance_report_path(@team), method: :get do |f| %>
+    <%= form_tag diver_team_attendance_report_path(@team), method: :get do |f| %>
       <%= label_tag :start_date, "From" %>
       <%= date_field_tag :start_date, @start_date, max: Date.today %>
       <%= label_tag :end_date, "To" %>
       <%= date_field_tag :end_date, @end_date || Date.today %>
-
-      <%= check_box_tag :include_excused, true, params[:include_excused] %>
-      <%= label_tag :include_excused, "Include Excused Absences" %>
       <%= check_box_tag :include_makeups, true, params[:include_makeups] %>
       <%= label_tag :include_makeups, "Include Makeup Practices" %>
-      <%= check_box_tag :include_inactive, true, params[:include_inactive] %>
-      <%= label_tag :include_inactive, "Include Deactivated Divers" %>
+
+      <%= hidden_field_tag :diver_id, @diver.id %>
       <%= button_tag 'Reload Report', class: 'btn btn-primary', data: { disable_with: 'reloading...' } %>
     <% end %>
   </div>
 </div>
 
-<div id='attendance-report-section'>
-  <%= render 'report' %>
+<div id='diver-attendance-report-section'>
+  <%= render 'diver_attendance_report' %>
 </div>

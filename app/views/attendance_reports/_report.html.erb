@@ -66,16 +66,27 @@
           <div class="panel-heading">
             <div class="row">
               <div class="col-xs-9 text-left">
-                <div class="medium"><u><%= diver.name %></u></div>
+                <div class="medium">
+                  <u>
+                    <%= link_to(diver.name, diver_team_attendance_report_path(
+                      @team,
+                      diver_id: diver.id,
+                      start_date: @start_date,
+                      end_date: @end_date,
+                      include_makeups: params[:include_makeups].present?
+                      )
+                    ) %>
+                </u>
+                </div>
                 <div class="small"><%= diver.practices_made_count %> Attended</div>
                 <div class="small"><%= diver.absence_count %> Missed</div>
                 <% if params[:include_excused] %>
                   <div class="small"><%= diver.excused_absence_count %> Excused</div>
                 <% end %>
               </div>
-              <div class="col-xs-3">
+              <div class="col-xs-3 text-center">
                 <i class="fa <%= icon %> fa-5x"></i>
-                <div class="small text-center"><%= average %>%</div>
+                <div class="small"><%= average %>%</div>
               </div>
             </div>
           </div>
